@@ -1,3 +1,6 @@
+## vercel 배포
+https://real-wrold.vercel.app/
+
 ## 폴더 구조
 
 ### 1. assets 폴더
