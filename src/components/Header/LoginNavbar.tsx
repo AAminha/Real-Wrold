@@ -1,10 +1,12 @@
 import React from 'react'
 
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 
 import { UserInfoType } from '@/types/auth'
 
 const LoginNavbar = ({ currentUser }: { currentUser: UserInfoType }) => {
+  const location = useLocation()
+
   return (
     <nav className="navbar navbar-light">
       <div className="container">
@@ -17,7 +19,7 @@ const LoginNavbar = ({ currentUser }: { currentUser: UserInfoType }) => {
         <ul className="nav navbar-nav pull-xs-right">
           <li className="nav-item">
             <Link
-              className="nav-link active"
+              className={`nav-link ${location.pathname === '/' && 'active'}`}
               to="/"
             >
               Home
@@ -25,7 +27,7 @@ const LoginNavbar = ({ currentUser }: { currentUser: UserInfoType }) => {
           </li>
           <li className="nav-item">
             <Link
-              className="nav-link"
+              className={`nav-link ${location.pathname === '/editor' && 'active'}`}
               to="/editor"
             >
               {' '}
@@ -34,7 +36,7 @@ const LoginNavbar = ({ currentUser }: { currentUser: UserInfoType }) => {
           </li>
           <li className="nav-item">
             <Link
-              className="nav-link"
+              className={`nav-link ${location.pathname === '/settings' && 'active'}`}
               to="/settings"
             >
               {' '}
@@ -43,11 +45,11 @@ const LoginNavbar = ({ currentUser }: { currentUser: UserInfoType }) => {
           </li>
           <li className="nav-item">
             <Link
-              className="nav-link"
+              className={`nav-link ${location.pathname.includes('/profile') && 'active'}`}
               to={`/profile/@${currentUser?.username}`}
             >
               <img
-                src=""
+                src={currentUser.image}
                 className="user-pic"
               />
               Eric Simons
