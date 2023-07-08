@@ -45,7 +45,7 @@ const Header = () => {
       <div className="container">
         <a
           className="navbar-brand"
-          href="index.html"
+          href=""
         >
           conduit
         </a>
