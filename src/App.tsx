@@ -3,7 +3,7 @@ import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 
 import Footer from './components/Footer'
-import Header from './components/Header'
+import Header from './components/Header/Header'
 import Article from './pages/Article'
 import Auth from './pages/Auth'
 import Create from './pages/Create'
