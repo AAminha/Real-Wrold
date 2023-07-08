@@ -1,39 +1,41 @@
 import React from 'react'
 
+import { Link } from 'react-router-dom'
+
 const LogoutNavbar = () => {
   return (
     <nav className="navbar navbar-light">
       <div className="container">
-        <a
+        <Link
           className="navbar-brand"
-          href="index.html"
+          to="index.html"
         >
           conduit
-        </a>
+        </Link>
         <ul className="nav navbar-nav pull-xs-right">
           <li className="nav-item">
-            <a
+            <Link
               className="nav-link active"
-              href="/"
+              to="/"
             >
               Home
-            </a>
+            </Link>
           </li>
           <li className="nav-item">
-            <a
+            <Link
               className="nav-link"
-              href="/login"
+              to="/login"
             >
               Sign in
-            </a>
+            </Link>
           </li>
           <li className="nav-item">
-            <a
+            <Link
               className="nav-link"
-              href="/register"
+              to="/register"
             >
               Sign up
-            </a>
+            </Link>
           </li>
         </ul>
       </div>
