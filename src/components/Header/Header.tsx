@@ -10,7 +10,7 @@ import LogoutNavbar from './LogoutNavbar'
 const Header = () => {
   const [currentUser] = useRecoilState(userState)
 
-  return currentUser ? <LoginNavbar /> : <LogoutNavbar />
+  return currentUser ? <LoginNavbar currentUser={currentUser} /> : <LogoutNavbar />
 }
 
 export default Header
