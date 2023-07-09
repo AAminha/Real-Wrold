@@ -1,10 +1,10 @@
 import { atom } from 'recoil'
 
-import { UserInfoType } from '@/types/auth'
+import { UserDataType } from '@/types/auth'
 
 import persistAtom from './persistAtom'
 
-export const userState = atom<UserInfoType | undefined>({
+export const userState = atom<UserDataType | undefined>({
   key: 'userState',
   default: undefined,
   effects: [persistAtom],
