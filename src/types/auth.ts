@@ -1,4 +1,4 @@
-export type UserInfoType = {
+export type UserDataType = {
   email: string
   token: string
   username: string
