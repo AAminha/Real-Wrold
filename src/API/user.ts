@@ -1,4 +1,4 @@
-import { GetLoginResponse, PostLoginRequest, PostLoginResponse } from '@/types/auth'
+import { GetUserResponse, PostLoginRequest, PostLoginResponse } from '@/types/auth'
 
 import client from './client'
 
@@ -10,7 +10,7 @@ export const userAPI = {
     return response
   },
   get: async () => {
-    const response = await client.get<GetLoginResponse>('/user')
+    const response = await client.get<GetUserResponse>('/user')
     return response
   },
 }
