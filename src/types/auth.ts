@@ -14,6 +14,6 @@ export type PostLoginResponse = UserDataType & {
   token: string
 }
 
-export type GetLoginResponse = UserDataType & {
+export type GetUserResponse = UserDataType & {
   token: string
 }
