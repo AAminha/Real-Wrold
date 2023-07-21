@@ -1,6 +1,44 @@
-import React from 'react'
+import React, { useState } from 'react'
+
+import { AxiosError } from 'axios'
+import { useMutation } from 'react-query'
+import { Link, useNavigate } from 'react-router-dom'
+import { useRecoilState } from 'recoil'
+
+import { userAPI } from '@/API/user'
+import api from '@/service/TokenService'
+import { userState } from '@/states/userState'
+import { ErrorData, PostRegisterRequestData } from '@/types/auth'
 
 const Register = () => {
+  const navigate = useNavigate()
+  const [, setCurrentUser] = useRecoilState(userState)
+  const [registerData, setRegisterData] = useState<PostRegisterRequestData>({
+    username: '',
+    email: '',
+    password: '',
+  })
+  const [error, setError] = useState<string[]>([])
+  const { mutate: postRegisterMutate } = useMutation(userAPI.register, {
+    onSuccess: (data) => {
+      const response = data.user
+      api.set(response.token)
+      setCurrentUser({
+        email: response.email,
+        username: response.username,
+        bio: response.bio,
+        image: response.image,
+      })
+      navigate('/')
+    },
+    onError: (err: AxiosError) => {
+      const status = err.response?.status
+      if (status === 403 || status == 422) {
+        const errors = err.response?.data as ErrorData
+        setError(Object.entries(errors.errors).map(([key, value]) => `${key} ${value}`))
+      }
+    },
+  })
   return (
     <div className="auth-page">
       <div className="container page">
@@ -8,7 +46,7 @@ const Register = () => {
           <div className="col-md-6 offset-md-3 col-xs-12">
             <h1 className="text-xs-center">Sign up</h1>
             <p className="text-xs-center">
-              <a href="">Have an account?</a>
+              <Link to="/login">Have an account?</Link>
             </p>
 
             <ul className="error-messages">
