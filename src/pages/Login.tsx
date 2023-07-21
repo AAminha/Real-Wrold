@@ -8,7 +8,7 @@ import { useRecoilState } from 'recoil'
 import { userAPI } from '@/API/user'
 import api from '@/service/TokenService'
 import { userState } from '@/states/userState'
-import { ErrorData, PostLoginRequestData } from '@/types/auth'
+import { ErrorData, PostLoginRequestData } from '@/types/user'
 
 const Login = () => {
   const navigate = useNavigate()
