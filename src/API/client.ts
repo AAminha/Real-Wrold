@@ -4,9 +4,11 @@ import api from '@/service/TokenService'
 
 const baseURL = 'https://api.realworld.io/api'
 
-const client = axios.create({
+export const client = axios.create({
+  baseURL: baseURL,
+})
+
+export const authClient = axios.create({
   baseURL: baseURL,
   headers: api.headers,
 })
-
-export default client

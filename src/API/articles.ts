@@ -1,6 +1,6 @@
 import { GetArticleResponse } from '@/types/articles'
 
-import client from './client'
+import { client } from './client'
 
 export const articleAPI = {
   get: async () => {

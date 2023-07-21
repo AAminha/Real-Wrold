@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Auth = () => {
+const Register = () => {
   return (
     <div className="auth-page">
       <div className="container page">
@@ -20,6 +20,7 @@ const Auth = () => {
                 <input
                   className="form-control form-control-lg"
                   type="text"
+                  name="username"
                   placeholder="Your Name"
                 />
               </fieldset>
@@ -46,4 +47,4 @@ const Auth = () => {
   )
 }
 
-export default Auth
+export default Register
