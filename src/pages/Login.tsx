@@ -15,7 +15,8 @@ const Login = () => {
     setLoginInfo({ ...loginInfo, [name]: value })
   }
 
-  const handleSubmit = () => {
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
     console.log('submit')
   }
 
@@ -37,7 +38,7 @@ const Login = () => {
               <fieldset className="form-group">
                 <input
                   className="form-control form-control-lg"
-                  type="text"
+                  type="email"
                   name="email"
                   value={loginInfo.email}
                   placeholder="Email"
