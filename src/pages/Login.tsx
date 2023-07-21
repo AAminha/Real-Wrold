@@ -31,10 +31,9 @@ const Login = () => {
       navigate('/')
     },
     onError: (err: AxiosError) => {
-      console.log(err.response)
-      if (err.response?.request.status === 403) {
-        const errors = err.response.data as ErrorData
-        console.log(errors.errors)
+      const status = err.response?.status
+      if (status === 403 || status == 422) {
+        const errors = err.response?.data as ErrorData
         setError(Object.entries(errors.errors).map(([key, value]) => `${key} ${value}`))
       }
     },
