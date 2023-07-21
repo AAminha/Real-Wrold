@@ -1,7 +1,9 @@
 import React, { ChangeEvent, useState } from 'react'
 
+import { useMutation } from 'react-query'
 import { Link } from 'react-router-dom'
 
+import { userAPI } from '@/API/user'
 import { PostLoginRequest } from '@/types/auth'
 
 const Login = () => {
@@ -9,14 +11,24 @@ const Login = () => {
     email: '',
     password: '',
   })
+  const { mutate: postLoginMutate } = useMutation(userAPI.login, {
+    onSuccess: (data) => {
+      console.log(data)
+    },
+    onError: (err) => {
+      console.log(err)
+    },
+  })
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
     setLoginInfo({ ...loginInfo, [name]: value })
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    const data = await postLoginMutate
+    console.log(data)
     console.log('submit')
   }
 
