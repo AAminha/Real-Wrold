@@ -1,6 +1,6 @@
 import { GetUserResponse, PostLoginRequest, PostLoginResponse } from '@/types/auth'
 
-import client from './client'
+import { client, authClient } from './client'
 
 export const userAPI = {
   login: async (userData: PostLoginRequest) => {
@@ -9,8 +9,9 @@ export const userAPI = {
     })
     return response
   },
-  get: async () => {
-    const response = await client.get<GetUserResponse>('/user')
+
+  gets: async () => {
+    const response = await authClient.get<GetUserResponse>('/user')
     return response
   },
 }
