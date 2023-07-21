@@ -1,6 +1,6 @@
 import { atom } from 'recoil'
 
-import { UserData } from '@/types/auth'
+import { UserData } from '@/types/user'
 
 import persistAtom from './persistAtom'
 

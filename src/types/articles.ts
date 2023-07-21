@@ -1,4 +1,4 @@
-import { UserData } from './auth'
+import { UserData } from './user'
 
 export interface ArticleDataType {
   slug: string
