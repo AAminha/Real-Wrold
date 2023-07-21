@@ -9,7 +9,7 @@ export const userAPI = {
     return response.data
   },
 
-  gets: async () => {
+  get: async () => {
     const response = await authClient.get<GetUserResponse>('/user')
     return response
   },
