@@ -8,7 +8,7 @@ import { useRecoilState } from 'recoil'
 import { userAPI } from '@/API/user'
 import api from '@/service/TokenService'
 import { userState } from '@/states/userState'
-import { ErrorData, PostRegisterRequestData } from '@/types/auth'
+import { ErrorData, PostRegisterRequestData } from '@/types/user'
 
 const Register = () => {
   const navigate = useNavigate()

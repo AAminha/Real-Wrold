@@ -4,7 +4,7 @@ import {
   PostLoginResponse,
   PostRegisterRequest,
   PostRegisterResponse,
-} from '@/types/auth'
+} from '@/types/user'
 
 import { client, authClient } from './client'
 
