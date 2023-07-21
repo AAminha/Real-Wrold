@@ -1,32 +1,44 @@
-// TODO : 타입 다시 만들기
-export interface UserDataType {
+export interface AuthDto<T> {
+  user: T
+}
+export interface UserData {
   email: string
   username: string
   bio: string
   image: string
 }
 
-export interface PostLoginRequest {
+export interface PostLoginRequestData {
   email: string
   password: string
 }
 
-export interface PostRegisterRequest {
+export interface PostRegisterRequestData {
   username: string
   email: string
   password: string
 }
 
-export interface PostLoginResponse extends UserDataType {
+export interface PostLoginResponseData extends UserData {
   token: string
 }
 
-export interface GetUserResponse extends UserDataType {
+export interface PostRegisterResponseData extends UserData {
   token: string
 }
 
-export interface ErrorDataType {
+export interface GetUserResponseData extends UserData {
+  token: string
+}
+
+export interface ErrorData {
   errors: {
     [key: string]: string[]
   }
 }
+
+export type PostLoginRequest = AuthDto<PostLoginRequestData>
+export type PostRegisterRequest = AuthDto<PostRegisterRequestData>
+export type PostLoginResponse = AuthDto<PostLoginResponseData>
+export type PostRegisterResponse = AuthDto<PostRegisterResponseData>
+export type GetUserResponse = AuthDto<GetUserResponseData>

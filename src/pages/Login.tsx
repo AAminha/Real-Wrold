@@ -7,12 +7,12 @@ import { useRecoilState } from 'recoil'
 
 import { userAPI } from '@/API/user'
 import { userState } from '@/states/userState'
-import { ErrorDataType, PostLoginRequest } from '@/types/auth'
+import { ErrorData, PostLoginRequestData } from '@/types/auth'
 
 const Login = () => {
   const navigate = useNavigate()
   const [, setCurrentUser] = useRecoilState(userState)
-  const [loginData, setLoginData] = useState<PostLoginRequest>({
+  const [loginData, setLoginData] = useState<PostLoginRequestData>({
     email: '',
     password: '',
   })
@@ -28,7 +28,7 @@ const Login = () => {
     onError: (err: AxiosError) => {
       console.log(err.response)
       if (err.response?.request.status === 403) {
-        const errors = err.response.data as ErrorDataType
+        const errors = err.response.data as ErrorData
         console.log(errors.errors)
         setError(Object.entries(errors.errors).map(([key, value]) => `${key} ${value}`))
       }
@@ -42,7 +42,7 @@ const Login = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    postLoginMutate(loginData)
+    postLoginMutate({ user: loginData })
   }
 
   return (

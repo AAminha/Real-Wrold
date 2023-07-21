@@ -4,9 +4,7 @@ import { client, authClient } from './client'
 
 export const userAPI = {
   login: async (loginData: PostLoginRequest) => {
-    const response = await client.post<PostLoginResponse>('/users/login', {
-      user: loginData,
-    })
+    const response = await client.post<PostLoginResponse>('/users/login', loginData)
     console.log(response)
     return response.data
   },

@@ -1,4 +1,4 @@
-import { UserDataType } from './auth'
+import { UserData } from './auth'
 
 export interface ArticleDataType {
   slug: string
@@ -10,7 +10,7 @@ export interface ArticleDataType {
   updatedAt: string
   favorited: boolean
   favoritesCount: number
-  author: UserDataType
+  author: UserData
 }
 
 export interface GetArticleResponse {
