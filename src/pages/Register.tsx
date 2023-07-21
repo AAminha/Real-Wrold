@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { ChangeEvent, useState } from 'react'
 
 import { AxiosError } from 'axios'
 import { useMutation } from 'react-query'
@@ -39,6 +39,17 @@ const Register = () => {
       }
     },
   })
+
+  const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target
+    setRegisterData({ ...registerData, [name]: value })
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    postRegisterMutate({ user: registerData })
+  }
+
   return (
     <div className="auth-page">
       <div className="container page">
@@ -50,30 +61,38 @@ const Register = () => {
             </p>
 
             <ul className="error-messages">
-              <li>That email is already taken</li>
+              {error.length > 0 && error.map((err, index) => <li key={index}>{err}</li>)}
             </ul>
 
-            <form>
+            <form onSubmit={handleSubmit}>
               <fieldset className="form-group">
                 <input
                   className="form-control form-control-lg"
                   type="text"
                   name="username"
+                  value={registerData.username}
                   placeholder="Your Name"
+                  onChange={handleInputChange}
                 />
               </fieldset>
               <fieldset className="form-group">
                 <input
                   className="form-control form-control-lg"
-                  type="text"
+                  type="email"
+                  name="email"
+                  value={registerData.email}
                   placeholder="Email"
+                  onChange={handleInputChange}
                 />
               </fieldset>
               <fieldset className="form-group">
                 <input
                   className="form-control form-control-lg"
                   type="password"
+                  name="password"
+                  value={registerData.password}
                   placeholder="Password"
+                  onChange={handleInputChange}
                 />
               </fieldset>
               <button className="btn btn-lg btn-primary pull-xs-right">Sign up</button>
