@@ -1,3 +1,4 @@
+// TODO : 타입 다시 만들기
 export interface UserDataType {
   email: string
   username: string
@@ -24,6 +25,8 @@ export interface GetUserResponse extends UserDataType {
   token: string
 }
 
-export interface errorDataType {
-  body: string[]
+export interface ErrorDataType {
+  errors: {
+    [key: string]: string[]
+  }
 }

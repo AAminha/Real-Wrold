@@ -1,35 +1,48 @@
 import React, { ChangeEvent, useState } from 'react'
 
+import { AxiosError } from 'axios'
 import { useMutation } from 'react-query'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { useRecoilState } from 'recoil'
 
 import { userAPI } from '@/API/user'
-import { PostLoginRequest } from '@/types/auth'
+import { userState } from '@/states/userState'
+import { ErrorDataType, PostLoginRequest } from '@/types/auth'
 
 const Login = () => {
-  const [loginInfo, setLoginInfo] = useState<PostLoginRequest>({
+  const navigate = useNavigate()
+  const [, setCurrentUser] = useRecoilState(userState)
+  const [loginData, setLoginData] = useState<PostLoginRequest>({
     email: '',
     password: '',
   })
+  const [error, setError] = useState<string[]>([])
   const { mutate: postLoginMutate } = useMutation(userAPI.login, {
     onSuccess: (data) => {
       console.log(data)
+      /* setCurrentUser({
+        email: data.userna
+      }) */
+      navigate('/')
     },
-    onError: (err) => {
-      console.log(err)
+    onError: (err: AxiosError) => {
+      console.log(err.response)
+      if (err.response?.request.status === 403) {
+        const errors = err.response.data as ErrorDataType
+        console.log(errors.errors)
+        setError(Object.entries(errors.errors).map(([key, value]) => `${key} ${value}`))
+      }
     },
   })
 
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
-    setLoginInfo({ ...loginInfo, [name]: value })
+    setLoginData({ ...loginData, [name]: value })
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    const data = await postLoginMutate
-    console.log(data)
-    console.log('submit')
+    postLoginMutate(loginData)
   }
 
   return (
@@ -43,7 +56,7 @@ const Login = () => {
             </p>
 
             <ul className="error-messages">
-              <li>That email is already taken</li>
+              {error.length > 0 && error.map((err, index) => <li key={index}>{err}</li>)}
             </ul>
 
             <form onSubmit={handleSubmit}>
@@ -52,7 +65,7 @@ const Login = () => {
                   className="form-control form-control-lg"
                   type="email"
                   name="email"
-                  value={loginInfo.email}
+                  value={loginData.email}
                   placeholder="Email"
                   onChange={handleInputChange}
                 />
@@ -62,7 +75,7 @@ const Login = () => {
                   className="form-control form-control-lg"
                   type="password"
                   name="password"
-                  value={loginInfo.password}
+                  value={loginData.password}
                   placeholder="Password"
                   onChange={handleInputChange}
                 />
