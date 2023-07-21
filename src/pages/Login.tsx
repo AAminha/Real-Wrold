@@ -6,6 +6,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useRecoilState } from 'recoil'
 
 import { userAPI } from '@/API/user'
+import api from '@/service/TokenService'
 import { userState } from '@/states/userState'
 import { ErrorData, PostLoginRequestData } from '@/types/auth'
 
@@ -20,6 +21,7 @@ const Login = () => {
   const { mutate: postLoginMutate } = useMutation(userAPI.login, {
     onSuccess: (data) => {
       const response = data.user
+      api.set(response.token)
       setCurrentUser({
         email: response.email,
         username: response.username,
