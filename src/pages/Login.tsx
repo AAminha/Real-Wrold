@@ -19,10 +19,13 @@ const Login = () => {
   const [error, setError] = useState<string[]>([])
   const { mutate: postLoginMutate } = useMutation(userAPI.login, {
     onSuccess: (data) => {
-      console.log(data)
-      /* setCurrentUser({
-        email: data.userna
-      }) */
+      const response = data.user
+      setCurrentUser({
+        email: response.email,
+        username: response.username,
+        bio: response.bio,
+        image: response.image,
+      })
       navigate('/')
     },
     onError: (err: AxiosError) => {
