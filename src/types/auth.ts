@@ -1,19 +1,19 @@
-export type UserDataType = {
+export interface UserDataType {
   email: string
   username: string
   bio: string
   image: string
 }
 
-export type PostLoginRequest = {
+export interface PostLoginRequest {
   email: string
   password: string
 }
 
-export type PostLoginResponse = UserDataType & {
+export interface PostLoginResponse extends UserDataType {
   token: string
 }
 
-export type GetUserResponse = UserDataType & {
+export interface GetUserResponse extends UserDataType {
   token: string
 }

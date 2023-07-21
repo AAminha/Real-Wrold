@@ -1,6 +1,6 @@
 import { UserDataType } from './auth'
 
-export type ArticleDataType = {
+export interface ArticleDataType {
   slug: string
   title: string
   description: string
@@ -13,7 +13,7 @@ export type ArticleDataType = {
   author: UserDataType
 }
 
-export type GetArticleResponse = {
+export interface GetArticleResponse {
   articles: ArticleDataType[]
   aritlcesCount: number
 }
