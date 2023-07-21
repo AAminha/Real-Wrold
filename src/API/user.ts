@@ -3,11 +3,12 @@ import { GetUserResponse, PostLoginRequest, PostLoginResponse } from '@/types/au
 import { client, authClient } from './client'
 
 export const userAPI = {
-  login: async (userData: PostLoginRequest) => {
+  login: async (loginData: PostLoginRequest) => {
     const response = await client.post<PostLoginResponse>('/users/login', {
-      user: userData,
+      user: loginData,
     })
-    return response
+    console.log(response)
+    return response.data
   },
 
   gets: async () => {
