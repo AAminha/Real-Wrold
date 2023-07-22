@@ -44,7 +44,7 @@ const Login = () => {
     setLoginData({ ...loginData, [name]: value })
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     postLoginMutate({ user: loginData })
   }
