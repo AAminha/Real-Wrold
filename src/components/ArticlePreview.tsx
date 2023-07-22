@@ -1,5 +1,7 @@
 import React from 'react'
 
+import { Link } from 'react-router-dom'
+
 import { ArticleData } from '@/types/articles'
 
 const ArticlePreview = ({
@@ -17,36 +19,49 @@ const ArticlePreview = ({
     )
 
   return (
-    <div className="article-preview">
-      <div className="article-meta">
-        <a href="">
-          <img src="http://i.imgur.com/N4VcUeJ.jpg" />
-        </a>
-        <div className="info">
-          <a
-            href=""
-            className="author"
+    <div>
+      {articles?.map((article: ArticleData) => (
+        <div
+          className="article-preview"
+          key={article.slug}
+        >
+          <div className="article-meta">
+            <Link to={`/@${article.author.username}`}>
+              <img src={article.author.image} />
+            </Link>
+            <div className="info">
+              <Link
+                to={`/@${article.author.username}`}
+                className="author"
+              >
+                {article.author.username}
+              </Link>
+              <span className="date">{article.createdAt}</span>
+            </div>
+            <button className="btn btn-outline-primary btn-sm pull-xs-right">
+              <i className="ion-heart"></i>&nbsp;{article.favoritesCount}
+            </button>
+          </div>
+          <Link
+            to={`/article/${article.slug}`}
+            className="preview-link"
           >
-            Albert Pai
-          </a>
-          <span className="date">January 20th</span>
+            <h1>{article.title}</h1>
+            <p>{article.description}</p>
+            <span>Read more...</span>
+            <ul className="tag-list">
+              {article.tagList.map((tag) => (
+                <li
+                  className="tag-default tag-pill tag-outline"
+                  key={tag}
+                >
+                  {tag}
+                </li>
+              ))}
+            </ul>
+          </Link>
         </div>
-        <button className="btn btn-outline-primary btn-sm pull-xs-right">
-          <i className="ion-heart"></i> 32
-        </button>
-      </div>
-      <a
-        href=""
-        className="preview-link"
-      >
-        <h1>The song you wont ever stop singing. No matter how hard you try.</h1>
-        <p>This is the description for the post.</p>
-        <span>Read more...</span>
-        <ul className="tag-list">
-          <li className="tag-default tag-pill tag-outline">Music</li>
-          <li className="tag-default tag-pill tag-outline">Song</li>
-        </ul>
-      </a>
+      ))}
     </div>
   )
 }
