@@ -4,6 +4,8 @@ import {
   PostLoginResponse,
   PostRegisterRequest,
   PostRegisterResponse,
+  PutUserRequest,
+  PutUserResponse,
 } from '@/types/user'
 
 import { client, authClient } from './client'
@@ -21,5 +23,9 @@ export const userAPI = {
   get: async () => {
     const response = await authClient.get<GetUserResponse>('/user')
     return response
+  },
+  update: async (newUserData: PutUserRequest) => {
+    const response = await authClient.put<PutUserResponse>('/user', newUserData)
+    return response.data
   },
 }
