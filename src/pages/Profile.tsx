@@ -1,8 +1,15 @@
-import React from 'react'
+import React, { useState } from 'react'
+
+import { Link } from 'react-router-dom'
+import { useRecoilState } from 'recoil'
 
 import ArticlePreview from '@/components/ArticlePreview'
+import { userState } from '@/states/userState'
 
 const Profile = () => {
+  const [currentUser] = useRecoilState(userState)
+  const [mode, setMode] = useState<string>('my')
+
   return (
     <div className="profile-page">
       <div className="user-info">
@@ -10,14 +17,11 @@ const Profile = () => {
           <div className="row">
             <div className="col-xs-12 col-md-10 offset-md-1">
               <img
-                src="http://i.imgur.com/Qr71crq.jpg"
+                src={currentUser?.image}
                 className="user-img"
               />
-              <h4>Eric Simons</h4>
-              <p>
-                Cofounder @GoThinkster, lived in Aols HQ for a few months, kinda looks like Peeta
-                from the Hunger Games
-              </p>
+              <h4>{currentUser?.username}</h4>
+              <p>{currentUser?.bio}</p>
               <button className="btn btn-sm btn-outline-secondary action-btn">
                 <i className="ion-plus-round"></i>
                 &nbsp; Follow Eric Simons
@@ -33,20 +37,22 @@ const Profile = () => {
             <div className="articles-toggle">
               <ul className="nav nav-pills outline-active">
                 <li className="nav-item">
-                  <a
-                    className="nav-link active"
-                    href=""
+                  <Link
+                    className={`nav-link ${mode === 'my' && 'active'}`}
+                    to={`/@${currentUser?.username}`}
+                    onClick={() => setMode('my')}
                   >
                     My Articles
-                  </a>
+                  </Link>
                 </li>
                 <li className="nav-item">
-                  <a
-                    className="nav-link"
-                    href=""
+                  <Link
+                    className={`nav-link ${mode === 'favorites' && 'active'}`}
+                    to={`/@${currentUser?.username}/favorites`}
+                    onClick={() => setMode('favorites')}
                   >
                     Favorited Articles
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </div>
