@@ -4,7 +4,7 @@ import { profileAPI } from '@/API/profile'
 
 export const useGetProfile = (username: string) => {
   return useQuery(['getProfile', username], () => profileAPI.get(username), {
-    // enabled: true,
+    enabled: true,
     onSuccess: (data) => {
       console.log(data)
     },
