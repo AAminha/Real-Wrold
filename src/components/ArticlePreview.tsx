@@ -18,6 +18,7 @@ const ArticlePreview = ({
       </div>
     )
 
+  // TODO : 게시글이 없을 경우 'No articles are here... yet.'문구 보이도록
   return (
     <div>
       {articles?.map((article: ArticleData) => (
@@ -36,8 +37,10 @@ const ArticlePreview = ({
               >
                 {article.author.username}
               </Link>
+              {/* TODO: 날짜 형식 변경 */}
               <span className="date">{article.createdAt}</span>
             </div>
+            {/* TODO: 좋아요 버튼 기능 구현 */}
             <button className="btn btn-outline-primary btn-sm pull-xs-right">
               <i className="ion-heart"></i>&nbsp;{article.favoritesCount}
             </button>

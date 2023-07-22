@@ -12,8 +12,8 @@ const ProfileButton = ({
   following,
   getProfileRefetch,
 }: {
-  username?: string
-  following?: boolean
+  username: string
+  following: boolean
   getProfileRefetch: () => void
 }) => {
   const navigate = useNavigate()
@@ -37,11 +37,6 @@ const ProfileButton = ({
     },
   })
 
-  const handleFollow = () => {
-    if (following) return postFollowMutate
-    return deleteUnfollowMutate
-  }
-
   if (currentUser?.username === username) {
     return (
       <button
@@ -55,8 +50,8 @@ const ProfileButton = ({
   } else {
     return (
       <button
-        className="btn btn-sm btn-outline-secondary action-btn"
-        onClick={handleFollow}
+        className="btn btn-sm action-btn ng-binding btn-secondary"
+        onClick={() => (following ? deleteUnfollowMutate(username) : postFollowMutate(username))}
       >
         <i className="ion-plus-round"></i>
         &nbsp;&nbsp;{`${following ? 'Unfollow' : 'Follow'} ${username}`}
