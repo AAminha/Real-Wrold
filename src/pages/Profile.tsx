@@ -34,6 +34,7 @@ const Profile = () => {
 
   useEffect(() => {
     setMode('my')
+    getProfileRefetch()
   }, [username])
 
   useEffect(() => {
@@ -42,66 +43,70 @@ const Profile = () => {
   }, [mode])
 
   return (
-    <div className="profile-page">
-      <div className="user-info">
-        <div className="container">
-          <div className="row">
-            <div className="col-xs-12 col-md-10 offset-md-1">
-              <img
-                src={profileData?.image}
-                className="user-img"
-              />
-              <h4>{profileData?.username}</h4>
-              <p>{profileData?.bio}</p>
-              <ProfileButton
-                username={profileData?.username}
-                following={profileData?.following}
-                getProfileRefetch={getProfileRefetch}
-              />
+    <div>
+      {profileData && (
+        <div className="profile-page">
+          <div className="user-info">
+            <div className="container">
+              <div className="row">
+                <div className="col-xs-12 col-md-10 offset-md-1">
+                  <img
+                    src={profileData.image}
+                    className="user-img"
+                  />
+                  <h4>{profileData.username}</h4>
+                  <p>{profileData.bio}</p>
+                  <ProfileButton
+                    username={profileData.username}
+                    following={profileData.following}
+                    getProfileRefetch={getProfileRefetch}
+                  />
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
 
-      <div className="container">
-        <div className="row">
-          <div className="col-xs-12 col-md-10 offset-md-1">
-            <div className="articles-toggle">
-              <ul className="nav nav-pills outline-active">
-                <li className="nav-item">
-                  <Link
-                    className={`nav-link ${mode === 'my' && 'active'}`}
-                    to={`/@${profileData?.username}`}
-                    onClick={() => setMode('my')}
-                  >
-                    My Articles
-                  </Link>
-                </li>
-                <li className="nav-item">
-                  <Link
-                    className={`nav-link ${mode === 'favorites' && 'active'}`}
-                    to={`/@${profileData?.username}/favorites`}
-                    onClick={() => setMode('favorites')}
-                  >
-                    Favorited Articles
-                  </Link>
-                </li>
-              </ul>
+          <div className="container">
+            <div className="row">
+              <div className="col-xs-12 col-md-10 offset-md-1">
+                <div className="articles-toggle">
+                  <ul className="nav nav-pills outline-active">
+                    <li className="nav-item">
+                      <Link
+                        className={`nav-link ${mode === 'my' && 'active'}`}
+                        to={`/@${profileData.username}`}
+                        onClick={() => setMode('my')}
+                      >
+                        My Articles
+                      </Link>
+                    </li>
+                    <li className="nav-item">
+                      <Link
+                        className={`nav-link ${mode === 'favorites' && 'active'}`}
+                        to={`/@${profileData.username}/favorites`}
+                        onClick={() => setMode('favorites')}
+                      >
+                        Favorited Articles
+                      </Link>
+                    </li>
+                  </ul>
+                </div>
+                {mode === 'my' ? (
+                  <ArticlePreview
+                    articles={myArticlesData?.articles}
+                    loading={myArticlesLoading || myArticlesFetching}
+                  />
+                ) : (
+                  <ArticlePreview
+                    articles={favoritedArticlesData?.articles}
+                    loading={favoritedArticlesLoading || favoritedArticlesFetching}
+                  />
+                )}
+              </div>
             </div>
-            {mode === 'my' ? (
-              <ArticlePreview
-                articles={myArticlesData?.articles}
-                loading={myArticlesLoading || myArticlesFetching}
-              />
-            ) : (
-              <ArticlePreview
-                articles={favoritedArticlesData?.articles}
-                loading={favoritedArticlesLoading || favoritedArticlesFetching}
-              />
-            )}
           </div>
         </div>
-      </div>
+      )}
     </div>
   )
 }

@@ -8,11 +8,11 @@ export const profileAPI = {
     return response.data.profile
   },
   follow: async (username: string) => {
-    const response = await authClient.post<ProfileResponse>(`profile/${username}/follow`, null)
+    const response = await authClient.post<ProfileResponse>(`profiles/${username}/follow`, null)
     return response.data.profile
   },
   unfollow: async (username: string) => {
-    const response = await authClient.delete<ProfileResponse>(`profile/${username}/follow`)
+    const response = await authClient.delete<ProfileResponse>(`profiles/${username}/follow`)
     return response.data.profile
   },
 }
