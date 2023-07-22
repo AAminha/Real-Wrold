@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Suspense } from 'react'
 
 import ReactDOM from 'react-dom/client'
 import './index.css'
@@ -21,11 +21,13 @@ const queryClient = new QueryClient({
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
-      <RecoilRoot>
-        <BrowserRouter>
-          <App />
-        </BrowserRouter>
-      </RecoilRoot>
+      <Suspense fallback="..loading">
+        <RecoilRoot>
+          <BrowserRouter>
+            <App />
+          </BrowserRouter>
+        </RecoilRoot>
+      </Suspense>
     </QueryClientProvider>
   </React.StrictMode>
 )
