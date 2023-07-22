@@ -33,6 +33,10 @@ const Profile = () => {
   })
 
   useEffect(() => {
+    setMode('my')
+  }, [username])
+
+  useEffect(() => {
     if (mode === 'my') getMyArticlesRefetch()
     else getFavoritedArticlesRefetch()
   }, [mode])
