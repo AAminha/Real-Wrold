@@ -1,9 +1,12 @@
 import React, { useState } from 'react'
 
 import { Link, useParams } from 'react-router-dom'
+import { useRecoilValue } from 'recoil'
 
 import ArticlePreview from '@/components/ArticlePreview'
+import ProfileButton from '@/components/Profile/ProfileButton'
 import { useGetProfile } from '@/hooks/useGetProfile'
+import { userState } from '@/states/userState'
 
 const Profile = () => {
   const { username: usernameParams } = useParams()
@@ -23,10 +26,10 @@ const Profile = () => {
               />
               <h4>{profileData?.username}</h4>
               <p>{profileData?.bio}</p>
-              <button className="btn btn-sm btn-outline-secondary action-btn">
-                <i className="ion-plus-round"></i>
-                &nbsp; Follow Eric Simons
-              </button>
+              <ProfileButton
+                username={profileData?.username}
+                following={profileData?.following}
+              />
             </div>
           </div>
         </div>
