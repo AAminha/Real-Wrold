@@ -17,9 +17,9 @@ export const useGetArticles = ({
 }) => {
   return useQuery(
     ['getAritlces', tag, author, favorited, offset, limit],
-    () => articleAPI.getArticles,
+    () => articleAPI.getArticles({ tag, author, favorited, offset, limit }),
     {
-      enabled: true,
+      enabled: false,
       onSuccess: (data) => {
         console.log(data)
       },

@@ -1,6 +1,6 @@
 import { GetArticlesResponse } from '@/types/articles'
 
-import { client } from './client'
+import { authClient } from './client'
 
 export const articleAPI = {
   getArticles: async ({
@@ -16,7 +16,7 @@ export const articleAPI = {
     offset?: number
     limit?: number
   }) => {
-    const response = await client.get<GetArticlesResponse>('/articles', {
+    const response = await authClient.get<GetArticlesResponse>('/articles', {
       params: {
         tag: tag,
         author: author,
@@ -25,6 +25,6 @@ export const articleAPI = {
         limit: limit,
       },
     })
-    return response
+    return response.data
   },
 }

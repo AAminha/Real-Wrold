@@ -1,6 +1,21 @@
 import React from 'react'
 
-const ArticlePreview = () => {
+import { ArticleData } from '@/types/articles'
+
+const ArticlePreview = ({
+  articles,
+  loading,
+}: {
+  articles: ArticleData[] | undefined
+  loading: boolean
+}) => {
+  if (loading)
+    return (
+      <div className="article-preview">
+        <div>Loading articles...</div>
+      </div>
+    )
+
   return (
     <div className="article-preview">
       <div className="article-meta">
