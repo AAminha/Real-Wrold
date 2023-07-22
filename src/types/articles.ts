@@ -1,6 +1,11 @@
 import { UserData } from './user'
 
-export interface ArticleDataType {
+export interface ArticlesDto<T> {
+  articles: T[]
+  articlesCount: number
+}
+
+export interface ArticleData {
   slug: string
   title: string
   description: string
@@ -13,7 +18,4 @@ export interface ArticleDataType {
   author: UserData
 }
 
-export interface GetArticleResponse {
-  articles: ArticleDataType[]
-  aritlcesCount: number
-}
+export type GetArticlesResponse = ArticlesDto<ArticleData>
