@@ -29,6 +29,7 @@ const Profile = () => {
               <ProfileButton
                 username={profileData?.username}
                 following={profileData?.following}
+                getProfileRefetch={getProfileRefetch}
               />
             </div>
           </div>
