@@ -15,9 +15,9 @@ class TokenService {
     this.cookie.remove('token')
   }
 
-  get headers() {
+  headers() {
     return {
-      Authorization: `Bearer ${this.get()}`,
+      Authorization: `Token ${this.get()}`,
     }
   }
 }
