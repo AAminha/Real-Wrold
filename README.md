@@ -1,5 +1,13 @@
 ## vercel 배포
+
 https://real-wrold.vercel.app/
+
+## 적용한 기술
+
+- 번들 `vite`
+- 언어 `typescript`
+- 통신 라이브러리 `react-query` `axios`
+- 전역상태 관리 `recoil`
 
 ## 폴더 구조
 
