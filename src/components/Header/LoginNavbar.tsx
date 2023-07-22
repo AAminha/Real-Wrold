@@ -46,13 +46,13 @@ const LoginNavbar = ({ currentUser }: { currentUser: UserData }) => {
           <li className="nav-item">
             <Link
               className={`nav-link ${location.pathname.includes('/profile') && 'active'}`}
-              to={`/profile/@${currentUser?.username}`}
+              to={`/@${currentUser?.username}`}
             >
               <img
                 src={currentUser.image}
                 className="user-pic"
               />
-              Eric Simons
+              {currentUser.username}
             </Link>
           </li>
         </ul>
