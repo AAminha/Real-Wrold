@@ -1,18 +1,41 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { Link, useParams } from 'react-router-dom'
-import { useRecoilValue } from 'recoil'
 
 import ArticlePreview from '@/components/ArticlePreview'
 import ProfileButton from '@/components/Profile/ProfileButton'
+import { useGetArticles } from '@/hooks/useGetArticles'
 import { useGetProfile } from '@/hooks/useGetProfile'
-import { userState } from '@/states/userState'
+
+// TODO: 페이지네이션 구현 (최대 개수 5개)
+// const SIZE = 5
 
 const Profile = () => {
   const { username: usernameParams } = useParams()
   const username = (usernameParams as string).replace('@', '')
   const [mode, setMode] = useState<string>('my')
   const { data: profileData, refetch: getProfileRefetch } = useGetProfile(username)
+  const {
+    data: myArticlesData,
+    refetch: getMyArticlesRefetch,
+    isLoading: myArticlesLoading,
+    isFetching: myArticlesFetching,
+  } = useGetArticles({
+    author: username,
+  })
+  const {
+    data: favoritedArticlesData,
+    refetch: getFavoritedArticlesRefetch,
+    isLoading: favoritedArticlesLoading,
+    isFetching: favoritedArticlesFetching,
+  } = useGetArticles({
+    favorited: username,
+  })
+
+  useEffect(() => {
+    if (mode === 'my') getMyArticlesRefetch()
+    else getFavoritedArticlesRefetch()
+  }, [mode])
 
   return (
     <div className="profile-page">
@@ -61,7 +84,17 @@ const Profile = () => {
                 </li>
               </ul>
             </div>
-            <ArticlePreview />
+            {mode === 'my' ? (
+              <ArticlePreview
+                articles={myArticlesData?.articles}
+                loading={myArticlesLoading || myArticlesFetching}
+              />
+            ) : (
+              <ArticlePreview
+                articles={favoritedArticlesData?.articles}
+                loading={favoritedArticlesLoading || favoritedArticlesFetching}
+              />
+            )}
           </div>
         </div>
       </div>
