@@ -5,10 +5,11 @@ import { Route, Routes } from 'react-router-dom'
 import Footer from './components/Footer'
 import Header from './components/Header/Header'
 import Article from './pages/Article'
-import Auth from './pages/Auth'
 import Create from './pages/Create'
 import Home from './pages/Home'
+import Login from './pages/Login'
 import Profile from './pages/Profile'
+import Register from './pages/Register'
 import Settings from './pages/Settings'
 
 const App = () => {
@@ -22,11 +23,11 @@ const App = () => {
         />
         <Route
           path="/login"
-          element={<Auth />}
+          element={<Login />}
         />
         <Route
           path="/register"
-          element={<Auth />}
+          element={<Register />}
         />
         <Route
           path="/editor"

@@ -2,9 +2,9 @@ import React from 'react'
 
 import { Link, useLocation } from 'react-router-dom'
 
-import { UserInfoType } from '@/types/auth'
+import { UserData } from '@/types/user'
 
-const LoginNavbar = ({ currentUser }: { currentUser: UserInfoType }) => {
+const LoginNavbar = ({ currentUser }: { currentUser: UserData }) => {
   const location = useLocation()
 
   return (
