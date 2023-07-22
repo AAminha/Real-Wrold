@@ -52,7 +52,7 @@ const LoginNavbar = ({ currentUser }: { currentUser: UserData }) => {
                 src={currentUser.image}
                 className="user-pic"
               />
-              Eric Simons
+              {currentUser.username}
             </Link>
           </li>
         </ul>
