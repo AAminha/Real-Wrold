@@ -1,14 +1,15 @@
 import React, { useState } from 'react'
 
-import { Link } from 'react-router-dom'
-import { useRecoilState } from 'recoil'
+import { Link, useParams } from 'react-router-dom'
 
 import ArticlePreview from '@/components/ArticlePreview'
-import { userState } from '@/states/userState'
+import { useGetProfile } from '@/hooks/useGetProfile'
 
 const Profile = () => {
-  const [currentUser] = useRecoilState(userState)
+  const { username: usernameParams } = useParams()
+  const username = (usernameParams as string).replace('@', '')
   const [mode, setMode] = useState<string>('my')
+  const { data: profileData, refetch: getProfileRefetch } = useGetProfile(username)
 
   return (
     <div className="profile-page">
@@ -17,11 +18,11 @@ const Profile = () => {
           <div className="row">
             <div className="col-xs-12 col-md-10 offset-md-1">
               <img
-                src={currentUser?.image}
+                src={profileData?.image}
                 className="user-img"
               />
-              <h4>{currentUser?.username}</h4>
-              <p>{currentUser?.bio}</p>
+              <h4>{profileData?.username}</h4>
+              <p>{profileData?.bio}</p>
               <button className="btn btn-sm btn-outline-secondary action-btn">
                 <i className="ion-plus-round"></i>
                 &nbsp; Follow Eric Simons
@@ -39,7 +40,7 @@ const Profile = () => {
                 <li className="nav-item">
                   <Link
                     className={`nav-link ${mode === 'my' && 'active'}`}
-                    to={`/@${currentUser?.username}`}
+                    to={`/@${profileData?.username}`}
                     onClick={() => setMode('my')}
                   >
                     My Articles
@@ -48,7 +49,7 @@ const Profile = () => {
                 <li className="nav-item">
                   <Link
                     className={`nav-link ${mode === 'favorites' && 'active'}`}
-                    to={`/@${currentUser?.username}/favorites`}
+                    to={`/@${profileData?.username}/favorites`}
                     onClick={() => setMode('favorites')}
                   >
                     Favorited Articles
