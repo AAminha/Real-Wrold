@@ -1,36 +1,54 @@
 import React, { useState } from 'react'
 
+import { AxiosError } from 'axios'
+import { useMutation } from 'react-query'
 import { useNavigate } from 'react-router'
 import { useRecoilState } from 'recoil'
 
+import { userAPI } from '@/API/user'
+import api from '@/service/TokenService'
 import { userState } from '@/states/userState'
-import { PutUserInfoRequest, UserInfoType } from '@/types/auth'
+import { PutUserRequestData } from '@/types/user'
 
 const Settings = () => {
   const navigate = useNavigate()
-  const [userInfo, setUserInfo] = useRecoilState(userState)
-  const [newUserInfo, setNewUserInfo] = useState<PutUserInfoRequest>({
-    email: '',
-    password: '',
-    username: '',
-    bio: '',
-    image: '',
+  const [currentUser, setCurrentUser] = useRecoilState(userState)
+  const [newUserInfo, setNewUserInfo] = useState<PutUserRequestData | undefined>(
+    currentUser && {
+      ...currentUser,
+      password: '',
+    }
+  )
+  const { mutate: putUserMutate } = useMutation(userAPI.update, {
+    onSuccess: (data) => {
+      const response = data.user
+      api.set(response.token)
+      setCurrentUser({
+        email: response.email,
+        username: response.username,
+        bio: response.bio,
+        image: response.image,
+      })
+      newUserInfo && navigate(`/profile/@${newUserInfo.username}`)
+    },
+    onError: (err: AxiosError) => {
+      console.log(err)
+    },
   })
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    console.log(userInfo)
-    // 변경된 값 제출
-    navigate(`/profile/@${newUserInfo.username}`)
+    newUserInfo && putUserMutate({ user: newUserInfo })
   }
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
-    setNewUserInfo({ ...newUserInfo, [name]: value })
+    newUserInfo && setNewUserInfo({ ...newUserInfo, [name]: value })
   }
 
   const handleLogout = () => {
-    setUserInfo(undefined)
+    setCurrentUser(undefined)
+    api.logout()
     navigate('/')
   }
 
@@ -48,9 +66,9 @@ const Settings = () => {
                     className="form-control"
                     type="text"
                     name="image"
-                    value={newUserInfo.image}
+                    value={newUserInfo && newUserInfo.image}
                     placeholder="URL of profile picture"
-                    onChange={handleChange}
+                    onChange={handleInputChange}
                   />
                 </fieldset>
                 <fieldset className="form-group">
@@ -58,9 +76,9 @@ const Settings = () => {
                     className="form-control form-control-lg"
                     type="text"
                     name="username"
-                    value={newUserInfo.username}
+                    value={newUserInfo && newUserInfo.username}
                     placeholder="Your Name"
-                    onChange={handleChange}
+                    onChange={handleInputChange}
                   />
                 </fieldset>
                 <fieldset className="form-group">
@@ -68,9 +86,9 @@ const Settings = () => {
                     className="form-control form-control-lg"
                     rows={8}
                     name="bio"
-                    value={newUserInfo.bio}
+                    value={newUserInfo && newUserInfo.bio}
                     placeholder="Short bio about you"
-                    onChange={handleChange}
+                    onChange={handleInputChange}
                   ></textarea>
                 </fieldset>
                 <fieldset className="form-group">
@@ -78,9 +96,9 @@ const Settings = () => {
                     className="form-control form-control-lg"
                     type="text"
                     name="email"
-                    value={newUserInfo.email}
+                    value={newUserInfo && newUserInfo.email}
                     placeholder="Email"
-                    onChange={handleChange}
+                    onChange={handleInputChange}
                   />
                 </fieldset>
                 <fieldset className="form-group">
@@ -88,9 +106,9 @@ const Settings = () => {
                     className="form-control form-control-lg"
                     type="password"
                     name="password"
-                    value={newUserInfo.password}
+                    value={newUserInfo && newUserInfo.password}
                     placeholder="Password"
-                    onChange={handleChange}
+                    onChange={handleInputChange}
                   />
                 </fieldset>
                 <button className="btn btn-lg btn-primary pull-xs-right">Update Settings</button>
