@@ -1,10 +1,30 @@
-import { GetArticleResponse } from '@/types/articles'
+import { GetArticlesResponse } from '@/types/articles'
 
-import { client } from './client'
+import { authClient } from './client'
 
 export const articleAPI = {
-  get: async () => {
-    const response = await client.get<GetArticleResponse>('/articles')
-    return response
+  getArticles: async ({
+    tag,
+    author,
+    favorited,
+    offset,
+    limit,
+  }: {
+    tag?: string
+    author?: string
+    favorited?: string
+    offset?: number
+    limit?: number
+  }) => {
+    const response = await authClient.get<GetArticlesResponse>('/articles', {
+      params: {
+        tag: tag,
+        author: author,
+        favorited: favorited,
+        offset: offset,
+        limit: limit,
+      },
+    })
+    return response.data
   },
 }

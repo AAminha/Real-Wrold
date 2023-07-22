@@ -35,7 +35,10 @@ const Home = () => {
                 </li>
               </ul>
             </div>
-            <ArticlePreview />
+            <ArticlePreview
+              articles={[]}
+              loading={true}
+            />
           </div>
 
           <div className="col-md-3">
