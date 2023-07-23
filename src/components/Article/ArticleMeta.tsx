@@ -7,7 +7,7 @@ import { DateFormat } from '@/utils/DateFormat'
 
 import FavoriteButton from './FavoriteButton'
 
-const ArticleMeta = ({ article }: { article: ArticleData }) => {
+const ArticleMeta = ({ article, previewMode }: { article: ArticleData; previewMode: boolean }) => {
   return (
     <div className="article-meta">
       <Link to={`/@${article.author.username}`}>
@@ -22,7 +22,7 @@ const ArticleMeta = ({ article }: { article: ArticleData }) => {
         </Link>
         <span className="date">{DateFormat(article.createdAt)}</span>
       </div>
-      <FavoriteButton article={article} />
+      {previewMode ? <FavoriteButton article={article} /> : null}
       {/* TODO: 팔로우 버튼 기능 구현 */}
       <button className="btn btn-sm btn-outline-secondary">
         <i className="ion-plus-round"></i>
