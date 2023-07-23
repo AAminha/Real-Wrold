@@ -24,3 +24,4 @@ export interface ArticleData {
 
 export type GetArticlesResponse = ArticlesDto<ArticleData>
 export type FavoriteResponse = ArticleDto<ArticleData>
+export type GetArticleResponse = ArticleDto<ArticleData>

@@ -1,4 +1,4 @@
-import { FavoriteResponse, GetArticlesResponse } from '@/types/articles'
+import { FavoriteResponse, GetArticleResponse, GetArticlesResponse } from '@/types/articles'
 
 import { authClient } from './client'
 
@@ -25,6 +25,10 @@ export const articleAPI = {
         limit: limit,
       },
     })
+    return response.data
+  },
+  getArticle: async (slug: string) => {
+    const response = await authClient.get<GetArticleResponse>(`/articles/${slug}`)
     return response.data
   },
   favorite: async (slug: string) => {
