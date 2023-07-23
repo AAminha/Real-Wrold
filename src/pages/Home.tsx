@@ -1,6 +1,6 @@
 import React from 'react'
 
-import ArticlePreview from '@/components/ArticlePreview'
+import ArticlePreview from '@/components/Article/ArticlePreview'
 
 const Home = () => {
   return (

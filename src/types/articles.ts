@@ -5,6 +5,10 @@ export interface ArticlesDto<T> {
   articlesCount: number
 }
 
+export interface ArticleDto<T> {
+  article: T
+}
+
 export interface ArticleData {
   slug: string
   title: string
@@ -19,3 +23,4 @@ export interface ArticleData {
 }
 
 export type GetArticlesResponse = ArticlesDto<ArticleData>
+export type FavoriteResponse = ArticleDto<ArticleData>
