@@ -1,6 +1,6 @@
 import React from 'react'
 
-import ArticleMeta from '@/components/ArticleMeta'
+import ArticleMeta from '@/components/Article/ArticleMeta'
 import Comment from '@/components/Comment'
 
 const Article = () => {
