@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 
 import { Link, useParams } from 'react-router-dom'
 
-import ArticlePreview from '@/components/ArticlePreview'
+import ArticlePreview from '@/components/Article/ArticlePreview'
 import ProfileButton from '@/components/Profile/ProfileButton'
 import { useGetArticles } from '@/hooks/useGetArticles'
 import { useGetProfile } from '@/hooks/useGetProfile'

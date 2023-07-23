@@ -4,6 +4,8 @@ import { Link } from 'react-router-dom'
 
 import { ArticleData } from '@/types/articles'
 
+import ArticleMeta from './ArticleMeta'
+
 const ArticlePreview = ({
   articles,
   loading,
@@ -26,25 +28,10 @@ const ArticlePreview = ({
           className="article-preview"
           key={article.slug}
         >
-          <div className="article-meta">
-            <Link to={`/@${article.author.username}`}>
-              <img src={article.author.image} />
-            </Link>
-            <div className="info">
-              <Link
-                to={`/@${article.author.username}`}
-                className="author"
-              >
-                {article.author.username}
-              </Link>
-              {/* TODO: 날짜 형식 변경 */}
-              <span className="date">{article.createdAt}</span>
-            </div>
-            {/* TODO: 좋아요 버튼 기능 구현 */}
-            <button className="btn btn-outline-primary btn-sm pull-xs-right">
-              <i className="ion-heart"></i>&nbsp;{article.favoritesCount}
-            </button>
-          </div>
+          <ArticleMeta
+            article={article}
+            previewMode={true}
+          />
           <Link
             to={`/article/${article.slug}`}
             className="preview-link"
