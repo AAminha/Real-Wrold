@@ -3,6 +3,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 
 import { ArticleData } from '@/types/articles'
+import { DateFormat } from '@/utils/DateFormat'
 
 const ArticlePreview = ({
   articles,
@@ -38,7 +39,7 @@ const ArticlePreview = ({
                 {article.author.username}
               </Link>
               {/* TODO: 날짜 형식 변경 */}
-              <span className="date">{article.createdAt}</span>
+              <span className="date">{DateFormat(article.createdAt)}</span>
             </div>
             {/* TODO: 좋아요 버튼 기능 구현 */}
             <button className="btn btn-outline-primary btn-sm pull-xs-right">
