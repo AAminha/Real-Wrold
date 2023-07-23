@@ -1,20 +1,37 @@
 import React from 'react'
 
-const ArticleMeta = () => {
+import { Link } from 'react-router-dom'
+
+import { ArticleData } from '@/types/articles'
+import { DateFormat } from '@/utils/DateFormat'
+
+const ArticleMeta = ({ article }: { article: ArticleData }) => {
   return (
     <div className="article-meta">
-      <a href="profile.html">
+      <Link to={`/@${article.author.username}`}>
         <img src="http://i.imgur.com/Qr71crq.jpg" />
-      </a>
+      </Link>
       <div className="info">
-        <a
-          href=""
+        <Link
+          to={`/@${article.author.username}`}
           className="author"
         >
-          Eric Simons
-        </a>
-        <span className="date">January 20th</span>
+          {article.author.username}
+        </Link>
+        <span className="date">{DateFormat(article.createdAt)}</span>
       </div>
+      {/* TODO: 좋아요 버튼 기능 구현 */}
+      <button
+        className={`btn btn-sm pull-xs-right ${
+          article.favorited ? 'btn-primary' : 'btn-outline-primary'
+        }`}
+        onClick={() =>
+          article.favorited ? deleteFavoriteMutate(article.slug) : postFavoriteMutate(article.slug)
+        }
+      >
+        <i className="ion-heart"></i>&nbsp;{article.favoritesCount}
+      </button>
+      {/* TODO: 팔로우 버튼 기능 구현 */}
       <button className="btn btn-sm btn-outline-secondary">
         <i className="ion-plus-round"></i>
         &nbsp; Follow Eric Simons
