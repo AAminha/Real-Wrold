@@ -1,17 +1,31 @@
 import React from 'react'
 
+import { useMutation } from 'react-query'
 import { Link } from 'react-router-dom'
 
+import { articleAPI } from '@/API/articles'
 import { ArticleData } from '@/types/articles'
 import { DateFormat } from '@/utils/DateFormat'
 
 const ArticlePreview = ({
   articles,
   loading,
+  getArticleRefetch,
 }: {
   articles: ArticleData[] | undefined
   loading: boolean
+  getArticleRefetch: () => void
 }) => {
+  const { mutate: postFavoriteMutate } = useMutation(articleAPI.favorite, {
+    onSuccess: () => {
+      getArticleRefetch()
+    },
+  })
+  const { mutate: deleteFavoriteMutate } = useMutation(articleAPI.unfavorite, {
+    onSuccess: () => {
+      getArticleRefetch()
+    },
+  })
   if (loading)
     return (
       <div className="article-preview">
@@ -38,11 +52,19 @@ const ArticlePreview = ({
               >
                 {article.author.username}
               </Link>
-              {/* TODO: 날짜 형식 변경 */}
               <span className="date">{DateFormat(article.createdAt)}</span>
             </div>
             {/* TODO: 좋아요 버튼 기능 구현 */}
-            <button className="btn btn-outline-primary btn-sm pull-xs-right">
+            <button
+              className={`btn btn-sm pull-xs-right ${
+                article.favorited ? 'btn-primary' : 'btn-outline-primary'
+              }`}
+              onClick={() =>
+                article.favorited
+                  ? deleteFavoriteMutate(article.slug)
+                  : postFavoriteMutate(article.slug)
+              }
+            >
               <i className="ion-heart"></i>&nbsp;{article.favoritesCount}
             </button>
           </div>
