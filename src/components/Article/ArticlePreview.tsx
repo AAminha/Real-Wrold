@@ -1,33 +1,18 @@
 import React from 'react'
 
-import { useMutation } from 'react-query'
 import { Link } from 'react-router-dom'
 
-import { articleAPI } from '@/API/articles'
 import { ArticleData } from '@/types/articles'
-import { DateFormat } from '@/utils/DateFormat'
 
 import ArticleMeta from './ArticleMeta'
 
 const ArticlePreview = ({
   articles,
   loading,
-  getArticleRefetch,
 }: {
   articles: ArticleData[] | undefined
   loading: boolean
-  getArticleRefetch: () => void
 }) => {
-  const { mutate: postFavoriteMutate } = useMutation(articleAPI.favorite, {
-    onSuccess: () => {
-      getArticleRefetch()
-    },
-  })
-  const { mutate: deleteFavoriteMutate } = useMutation(articleAPI.unfavorite, {
-    onSuccess: () => {
-      getArticleRefetch()
-    },
-  })
   if (loading)
     return (
       <div className="article-preview">
@@ -43,7 +28,10 @@ const ArticlePreview = ({
           className="article-preview"
           key={article.slug}
         >
-          <ArticleMeta article={article} />
+          <ArticleMeta
+            article={article}
+            previewMode={true}
+          />
           <Link
             to={`/article/${article.slug}`}
             className="preview-link"
