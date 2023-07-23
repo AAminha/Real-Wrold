@@ -7,6 +7,8 @@ import { articleAPI } from '@/API/articles'
 import { ArticleData } from '@/types/articles'
 import { DateFormat } from '@/utils/DateFormat'
 
+import ArticleMeta from './ArticleMeta'
+
 const ArticlePreview = ({
   articles,
   loading,
@@ -41,33 +43,7 @@ const ArticlePreview = ({
           className="article-preview"
           key={article.slug}
         >
-          <div className="article-meta">
-            <Link to={`/@${article.author.username}`}>
-              <img src={article.author.image} />
-            </Link>
-            <div className="info">
-              <Link
-                to={`/@${article.author.username}`}
-                className="author"
-              >
-                {article.author.username}
-              </Link>
-              <span className="date">{DateFormat(article.createdAt)}</span>
-            </div>
-            {/* TODO: 좋아요 버튼 기능 구현 */}
-            <button
-              className={`btn btn-sm pull-xs-right ${
-                article.favorited ? 'btn-primary' : 'btn-outline-primary'
-              }`}
-              onClick={() =>
-                article.favorited
-                  ? deleteFavoriteMutate(article.slug)
-                  : postFavoriteMutate(article.slug)
-              }
-            >
-              <i className="ion-heart"></i>&nbsp;{article.favoritesCount}
-            </button>
-          </div>
+          <ArticleMeta article={article} />
           <Link
             to={`/article/${article.slug}`}
             className="preview-link"
