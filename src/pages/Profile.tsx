@@ -95,11 +95,13 @@ const Profile = () => {
                   <ArticlePreview
                     articles={myArticlesData?.articles}
                     loading={myArticlesLoading || myArticlesFetching}
+                    getArticleRefetch={getMyArticlesRefetch}
                   />
                 ) : (
                   <ArticlePreview
                     articles={favoritedArticlesData?.articles}
                     loading={favoritedArticlesLoading || favoritedArticlesFetching}
+                    getArticleRefetch={getFavoritedArticlesRefetch}
                   />
                 )}
               </div>
