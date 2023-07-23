@@ -6,6 +6,7 @@ import { ArticleData } from '@/types/articles'
 import { DateFormat } from '@/utils/DateFormat'
 
 import FavoriteButton from './FavoriteButton'
+import FollowButton from './FollowButton'
 
 const ArticleMeta = ({ article, previewMode }: { article: ArticleData; previewMode: boolean }) => {
   return (
@@ -22,17 +23,7 @@ const ArticleMeta = ({ article, previewMode }: { article: ArticleData; previewMo
         </Link>
         <span className="date">{DateFormat(article.createdAt)}</span>
       </div>
-      {previewMode ? <FavoriteButton article={article} /> : null}
-      {/* TODO: 팔로우 버튼 기능 구현 */}
-      <button className="btn btn-sm btn-outline-secondary">
-        <i className="ion-plus-round"></i>
-        &nbsp; Follow Eric Simons
-      </button>
-      &nbsp;
-      <button className="btn btn-sm btn-outline-primary">
-        <i className="ion-heart"></i>
-        &nbsp; Favorite Article <span className="counter">(29)</span>
-      </button>
+      {previewMode ? <FavoriteButton article={article} /> : <FollowButton />}
     </div>
   )
 }
