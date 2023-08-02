@@ -4,6 +4,7 @@ import { authClient } from './client'
 
 export const profileAPI = {
   get: async (username: string) => {
+    // Auth is optional
     const response = await authClient.get<ProfileResponse>(`/profiles/${username}`)
     return response.data.profile
   },
