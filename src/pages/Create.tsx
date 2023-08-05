@@ -1,6 +1,23 @@
-import React from 'react'
+import React, { ChangeEvent, KeyboardEvent, useState } from 'react'
+
+import { PostArticleRequestData } from '@/types/articles'
 
 const Create = () => {
+  const [tag, setTage] = useState<string>('')
+  const [articleInfo, setArticleInfo] = useState<PostArticleRequestData>({
+    title: '',
+    description: '',
+    body: '',
+    tagList: [],
+  })
+
+  const handleInputChange = (
+    e: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target
+    setArticleInfo({ ...articleInfo, [name]: value })
+  }
+
   return (
     <div className="editor-page">
       <div className="container page">
@@ -13,6 +30,9 @@ const Create = () => {
                     type="text"
                     className="form-control form-control-lg"
                     placeholder="Article Title"
+                    name="title"
+                    value={articleInfo.title}
+                    onChange={handleInputChange}
                   />
                 </fieldset>
                 <fieldset className="form-group">
@@ -20,6 +40,9 @@ const Create = () => {
                     type="text"
                     className="form-control"
                     placeholder="What's this article about?"
+                    name="description"
+                    value={articleInfo.description}
+                    onChange={handleInputChange}
                   />
                 </fieldset>
                 <fieldset className="form-group">
@@ -27,6 +50,9 @@ const Create = () => {
                     className="form-control"
                     rows={8}
                     placeholder="Write your article (in markdown)"
+                    name="body"
+                    value={articleInfo.body}
+                    onChange={handleInputChange}
                   ></textarea>
                 </fieldset>
                 <fieldset className="form-group">
@@ -34,6 +60,17 @@ const Create = () => {
                     type="text"
                     className="form-control"
                     placeholder="Enter tags"
+                    name="tag"
+                    value={tag}
+                    onChange={(e: ChangeEvent<HTMLInputElement>) => {
+                      setTage(e.target.value)
+                    }}
+                    onKeyDown={(e: KeyboardEvent<HTMLInputElement>) => {
+                      if (e.key === 'Enter' && !articleInfo.tagList.includes(tag)) {
+                        setArticleInfo({ ...articleInfo, tagList: [...articleInfo.tagList, tag] })
+                        setTage('')
+                      }
+                    }}
                   />
                   <div className="tag-list"></div>
                 </fieldset>
