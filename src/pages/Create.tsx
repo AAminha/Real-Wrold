@@ -1,14 +1,35 @@
 import React, { ChangeEvent, KeyboardEvent, useState } from 'react'
 
+import { AxiosError } from 'axios'
+import { useMutation } from 'react-query'
+import { useNavigate } from 'react-router-dom'
+
+import { articleAPI } from '@/API/articles'
 import { PostArticleRequestData } from '@/types/articles'
+import { ErrorData } from '@/types/user'
 
 const Create = () => {
+  const navigate = useNavigate()
   const [tag, setTage] = useState<string>('')
+  const [error, setError] = useState<string[]>([])
   const [articleInfo, setArticleInfo] = useState<PostArticleRequestData>({
     title: '',
     description: '',
     body: '',
     tagList: [],
+  })
+  const { mutate: postArticleMutate } = useMutation(articleAPI.post, {
+    onSuccess: (data) => {
+      const slug = data.article.slug
+      navigate(`/article/${slug}`)
+    },
+    onError: (err: AxiosError) => {
+      const status = err.response?.status
+      if (status === 403 || status === 422) {
+        const errors = err.response?.data as ErrorData
+        setError(Object.entries(errors.errors).map(([key, value]) => `${key} ${value}`))
+      }
+    },
   })
 
   const handleInputChange = (
@@ -18,12 +39,20 @@ const Create = () => {
     setArticleInfo({ ...articleInfo, [name]: value })
   }
 
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    postArticleMutate(articleInfo)
+  }
+
   return (
     <div className="editor-page">
       <div className="container page">
         <div className="row">
           <div className="col-md-10 offset-md-1 col-xs-12">
-            <form>
+            <ul className="error-messages">
+              {error.length > 0 && error.map((err, index) => <li key={index}>{err}</li>)}
+            </ul>
+            <form onSubmit={handleSubmit}>
               <fieldset>
                 <fieldset className="form-group">
                   <input
@@ -94,7 +123,7 @@ const Create = () => {
                 </fieldset>
                 <button
                   className="btn btn-lg pull-xs-right btn-primary"
-                  type="button"
+                  type="submit"
                 >
                   Publish Article
                 </button>

@@ -33,3 +33,4 @@ export type PostArticleRequest = ArticleDto<PostArticleRequestData>
 export type GetArticlesResponse = ArticlesDto<ArticleData>
 export type FavoriteResponse = ArticleDto<ArticleData>
 export type GetArticleResponse = ArticleDto<ArticleData>
+export type PostArticleResponse = ArticleDto<ArticleData>
