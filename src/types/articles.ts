@@ -9,6 +9,13 @@ export interface ArticleDto<T> {
   article: T
 }
 
+export interface PostArticleRequestData {
+  title: string
+  description: string
+  body: string
+  tagList: string[]
+}
+
 export interface ArticleData {
   slug: string
   title: string
@@ -22,6 +29,7 @@ export interface ArticleData {
   author: UserData
 }
 
+export type PostArticleRequest = ArticleDto<PostArticleRequestData>
 export type GetArticlesResponse = ArticlesDto<ArticleData>
 export type FavoriteResponse = ArticleDto<ArticleData>
 export type GetArticleResponse = ArticleDto<ArticleData>
