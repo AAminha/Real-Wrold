@@ -73,12 +73,20 @@ const Create = () => {
                     }}
                   />
                   <div className="tag-list">
-                    {articleInfo.tagList.map((tagItem: string) => (
+                    {articleInfo.tagList.map((tagItem: string, index: number) => (
                       <span
                         className="tag-default tag-pill ng-binding ng-scope"
                         key={tagItem}
                       >
-                        <i className="ion-close-round"></i>
+                        <i
+                          className="ion-close-round"
+                          onClick={() => {
+                            const deletedList = articleInfo.tagList.filter(
+                              (item, idx) => index !== idx
+                            )
+                            setArticleInfo({ ...articleInfo, tagList: deletedList })
+                          }}
+                        ></i>
                         {tagItem}
                       </span>
                     ))}
