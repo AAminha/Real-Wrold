@@ -72,7 +72,17 @@ const Create = () => {
                       }
                     }}
                   />
-                  <div className="tag-list"></div>
+                  <div className="tag-list">
+                    {articleInfo.tagList.map((tagItem: string) => (
+                      <span
+                        className="tag-default tag-pill ng-binding ng-scope"
+                        key={tagItem}
+                      >
+                        <i className="ion-close-round"></i>
+                        {tagItem}
+                      </span>
+                    ))}
+                  </div>
                 </fieldset>
                 <button
                   className="btn btn-lg pull-xs-right btn-primary"
