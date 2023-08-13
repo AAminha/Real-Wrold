@@ -10,5 +10,7 @@ export const client = axios.create({
 
 export const authClient = axios.create({
   baseURL: baseURL,
-  headers: api.headers(),
+  headers: {
+    Authorization: api.headers(),
+  },
 })

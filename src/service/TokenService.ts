@@ -16,9 +16,7 @@ class TokenService {
   }
 
   headers() {
-    return {
-      Authorization: `Token ${this.get()}`,
-    }
+    return `Token ${this.get()}`
   }
 }
 
