@@ -1,35 +1,42 @@
 import React from 'react'
 
+import { useParams } from 'react-router-dom'
+
 import ArticleMeta from '@/components/Article/ArticleMeta'
 import Comment from '@/components/Comment'
+import { useGetArticle } from '@/hooks/useGetArticle'
 
 const Article = () => {
+  const { slug } = useParams()
+  const { data: selectedArticle } = useGetArticle(slug ? slug : '')
   return (
     <div className="article-page">
       <div className="banner">
         <div className="container">
-          <h1>How to build webapps that scale</h1>
+          <h1>{selectedArticle?.article.title}</h1>
 
-          <ArticleMeta />
+          <ArticleMeta
+            article={selectedArticle?.article}
+            previewMode={false}
+          />
         </div>
       </div>
 
       <div className="container page">
         <div className="row article-content">
           <div className="col-md-12">
-            <p>
-              Web development technologies have evolved at an incredible clip over the past few
-              years.
-            </p>
-            <h2 id="introducing-ionic">Introducing RealWorld.</h2>
-            <p>Its a great solution for learning how other frameworks work.</p>
+            {/* TODO: 마크다운 형식으로 변환할 수 있는 방법 찾기 */}
+            <p>{selectedArticle?.article.body}</p>
           </div>
         </div>
 
         <hr />
 
         <div className="article-actions">
-          <ArticleMeta />
+          <ArticleMeta
+            article={selectedArticle?.article}
+            previewMode={false}
+          />
         </div>
 
         <Comment />
