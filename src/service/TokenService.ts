@@ -1,18 +1,19 @@
+import { AxiosRequestConfig } from 'axios'
 import { Cookies } from 'react-cookie'
 
 class TokenService {
   cookie = new Cookies()
 
   set(token: string) {
-    this.cookie.set('token', token, { path: '/' })
+    this.cookie.set('realworld_token', token, { path: '/' })
   }
 
   get() {
-    return this.cookie.get('token')
+    return this.cookie.get('realworld_token')
   }
 
   logout() {
-    this.cookie.remove('token')
+    this.cookie.remove('realworld_token')
   }
 
   headers() {
