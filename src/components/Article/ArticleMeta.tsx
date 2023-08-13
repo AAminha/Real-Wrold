@@ -5,8 +5,8 @@ import { Link } from 'react-router-dom'
 import { ArticleData } from '@/types/articles'
 import { DateFormat } from '@/utils/DateFormat'
 
+import ArticleButton from './ArticleButton'
 import FavoriteButton from './FavoriteButton'
-import FollowButton from './FollowButton'
 
 const ArticleMeta = ({ article, previewMode }: { article: ArticleData; previewMode: boolean }) => {
   return (
@@ -23,7 +23,7 @@ const ArticleMeta = ({ article, previewMode }: { article: ArticleData; previewMo
         </Link>
         <span className="date">{DateFormat(article.createdAt)}</span>
       </div>
-      {previewMode ? <FavoriteButton article={article} /> : <FollowButton />}
+      {previewMode ? <FavoriteButton article={article} /> : <ArticleButton article={article} />}
     </div>
   )
 }

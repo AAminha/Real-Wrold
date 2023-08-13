@@ -2,7 +2,7 @@ import React from 'react'
 
 import { useParams } from 'react-router-dom'
 
-// import ArticleMeta from '@/components/Article/ArticleMeta'
+import ArticleMeta from '@/components/Article/ArticleMeta'
 import Comment from '@/components/Comment'
 import { useGetArticle } from '@/hooks/useGetArticle'
 
@@ -15,10 +15,12 @@ const Article = () => {
         <div className="container">
           <h1>{selectedArticle?.article.title}</h1>
 
-          {/* <ArticleMeta
-            article={selectedArticle?.article}
-            previewMode={false}
-          /> */}
+          {selectedArticle && (
+            <ArticleMeta
+              article={selectedArticle.article}
+              previewMode={false}
+            />
+          )}
         </div>
       </div>
 
@@ -33,10 +35,12 @@ const Article = () => {
         <hr />
 
         <div className="article-actions">
-          {/* <ArticleMeta
-            article={selectedArticle?.article}
-            previewMode={false}
-          /> */}
+          {selectedArticle && (
+            <ArticleMeta
+              article={selectedArticle?.article}
+              previewMode={false}
+            />
+          )}
         </div>
 
         <Comment />
