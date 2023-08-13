@@ -9,20 +9,31 @@ const ArticleButton = ({ article }: { article: ArticleData }) => {
   // TODO: 팔로우 버튼 기능 구현
   // TODO: 게시글 편집 및 삭제 버튼 기능 구현
   const [currentUser] = useRecoilState(userState)
-  if (currentUser?.username === article.author.username)
+  // 게시글 작성자가 타인일 때, Follow 버튼
+  if (currentUser?.username !== article.author.username)
     return (
       <>
-        <button className="btn btn-sm btn-outline-secondary">
+        <button
+          className={`btn btn-sm ${
+            article.author.following
+              ? 'action-btn ng-binding btn-secondary'
+              : 'btn-outline-secondary'
+          }`}
+        >
           <i className="ion-plus-round"></i>
-          &nbsp; Follow {article.author.username}
+          &nbsp; {article.author.following ? 'Unfollow' : 'Follow'} {article.author.username}
         </button>
         &nbsp;
-        <button className="btn btn-sm btn-outline-primary">
+        <button
+          className={`btn btn-sm ${article.favorited ? 'btn-primary' : 'btn-outline-primary'}`}
+        >
           <i className="ion-heart"></i>
-          &nbsp; Favorite Article <span className="counter">({article.favoritesCount})</span>
+          &nbsp; {article.favorited ? 'Unfavorite' : 'Favorite'} Article{' '}
+          <span className="counter">({article.favoritesCount})</span>
         </button>
       </>
     )
+  // 게시글 작성자가 본인일 때, Edit 및 Delete 버튼
   else
     return (
       <>
