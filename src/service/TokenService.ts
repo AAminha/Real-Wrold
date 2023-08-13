@@ -1,4 +1,3 @@
-import { AxiosRequestConfig } from 'axios'
 import { Cookies } from 'react-cookie'
 
 class TokenService {

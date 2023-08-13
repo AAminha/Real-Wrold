@@ -4,6 +4,8 @@ import {
   GetArticlesResponse,
   PostArticleRequestData,
   PostArticleResponse,
+  PutArticleRequestData,
+  PutArticleResponse,
 } from '@/types/articles'
 
 import { authClient } from './client'
@@ -42,6 +44,13 @@ export const articleAPI = {
   post: async (article: PostArticleRequestData) => {
     // Auth is required
     const response = await authClient.post<PostArticleResponse>('/articles', {
+      article: article,
+    })
+    return response.data
+  },
+  edit: async (article: PutArticleRequestData) => {
+    // Auth is required
+    const response = await authClient.post<PutArticleResponse>('/articles', {
       article: article,
     })
     return response.data
