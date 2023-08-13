@@ -38,13 +38,13 @@ const ArticleButton = ({ article }: { article: ArticleData }) => {
     return (
       <>
         <button className="btn btn-sm btn-outline-secondary">
-          <i className="ion-plus-round"></i>
-          &nbsp; Follow Eric Simons
+          <i className="ion-edit"></i>
+          &nbsp; Edit Article
         </button>
         &nbsp;
-        <button className="btn btn-sm btn-outline-primary">
-          <i className="ion-heart"></i>
-          &nbsp; Favorite Article <span className="counter">(29)</span>
+        <button className="btn btn-outline-danger btn-sm">
+          <i className="ion-trash-a"></i>
+          &nbsp; Delete Article
         </button>
       </>
     )
