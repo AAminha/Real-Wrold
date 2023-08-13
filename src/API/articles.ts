@@ -1,4 +1,10 @@
-import { FavoriteResponse, GetArticlesResponse } from '@/types/articles'
+import {
+  FavoriteResponse,
+  GetArticleResponse,
+  GetArticlesResponse,
+  PostArticleRequestData,
+  PostArticleResponse,
+} from '@/types/articles'
 
 import { authClient } from './client'
 
@@ -24,6 +30,17 @@ export const articleAPI = {
         offset: offset,
         limit: limit,
       },
+    })
+    return response.data
+  },
+  getArticle: async (slug: string) => {
+    const response = await authClient.get<GetArticleResponse>(`/articles/${slug}`)
+    return response.data
+  },
+  post: async (article: PostArticleRequestData) => {
+    // Auth is required
+    const response = await authClient.post<PostArticleResponse>('/articles', {
+      article: article,
     })
     return response.data
   },
