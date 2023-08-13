@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 
 import { ArticleData } from '@/types/articles'
 
-import ArticleMeta from './ArticleMeta'
+// import ArticleMeta from './ArticleMeta'
 
 const ArticlePreview = ({
   articles,
@@ -28,10 +28,10 @@ const ArticlePreview = ({
           className="article-preview"
           key={article.slug}
         >
-          <ArticleMeta
+          {/* <ArticleMeta
             article={article}
             previewMode={true}
-          />
+          /> */}
           <Link
             to={`/article/${article.slug}`}
             className="preview-link"
