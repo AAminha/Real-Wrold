@@ -1,14 +1,16 @@
-import React, { ChangeEvent, KeyboardEvent, useState } from 'react'
+import React, { ChangeEvent, KeyboardEvent, useEffect, useState } from 'react'
 
 import { AxiosError } from 'axios'
 import { useMutation } from 'react-query'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 import { articleAPI } from '@/API/articles'
+import { useGetArticle } from '@/hooks/useGetArticle'
 import { PostArticleRequestData } from '@/types/articles'
 import { ErrorData } from '@/types/user'
 
 const Create = () => {
+  const { slug: selectedSlug } = useParams()
   const navigate = useNavigate()
   const [tag, setTage] = useState<string>('')
   const [error, setError] = useState<string[]>([])
@@ -18,7 +20,35 @@ const Create = () => {
     body: '',
     tagList: [],
   })
+
+  useEffect(() => {
+    if (selectedSlug !== undefined) {
+      const { data: selectedArticle } = useGetArticle(selectedSlug)
+      selectedArticle &&
+        setArticleInfo({
+          title: selectedArticle.article.title,
+          description: selectedArticle.article.description,
+          body: selectedArticle.article.body,
+          tagList: selectedArticle.article.tagList,
+        })
+    }
+  }, [selectedSlug])
+
   const { mutate: postArticleMutate } = useMutation(articleAPI.post, {
+    onSuccess: (data) => {
+      const slug = data.article.slug
+      navigate(`/article/${slug}`)
+    },
+    onError: (err: AxiosError) => {
+      const status = err.response?.status
+      if (status === 403 || status === 422) {
+        const errors = err.response?.data as ErrorData
+        setError(Object.entries(errors.errors).map(([key, value]) => `${key} ${value}`))
+      }
+    },
+  })
+
+  const { mutate: putArticleMutate } = useMutation(articleAPI.edit, {
     onSuccess: (data) => {
       const slug = data.article.slug
       navigate(`/article/${slug}`)
@@ -41,7 +71,11 @@ const Create = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    postArticleMutate(articleInfo)
+    if (!selectedSlug) {
+      postArticleMutate(articleInfo)
+    } else {
+      putArticleMutate(articleInfo)
+    }
   }
 
   return (

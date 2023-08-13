@@ -16,6 +16,13 @@ export interface PostArticleRequestData {
   tagList: string[]
 }
 
+export interface PutArticleRequestData {
+  title: string
+  description: string
+  body: string
+  tagList: string[]
+}
+
 export interface ArticleData {
   slug: string
   title: string
@@ -30,7 +37,9 @@ export interface ArticleData {
 }
 
 export type PostArticleRequest = ArticleDto<PostArticleRequestData>
+export type PutArticleRequest = ArticleDto<PutArticleRequestData>
 export type GetArticlesResponse = ArticlesDto<ArticleData>
 export type FavoriteResponse = ArticleDto<ArticleData>
 export type GetArticleResponse = ArticleDto<ArticleData>
 export type PostArticleResponse = ArticleDto<ArticleData>
+export type PutArticleResponse = ArticleDto<ArticleData>

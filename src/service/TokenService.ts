@@ -1,4 +1,3 @@
-import { AxiosRequestConfig } from 'axios'
 import { Cookies } from 'react-cookie'
 
 class TokenService {
@@ -17,10 +16,7 @@ class TokenService {
   }
 
   headers() {
-    if (this.get() === undefined) return null
-    return {
-      Authorization: `Token ${this.get()}`,
-    } as AxiosRequestConfig<any>
+    return `Token ${this.get()}`
   }
 }
 
