@@ -1,14 +1,16 @@
-import React, { ChangeEvent, KeyboardEvent, useState } from 'react'
+import React, { ChangeEvent, KeyboardEvent, useEffect, useState } from 'react'
 
 import { AxiosError } from 'axios'
 import { useMutation } from 'react-query'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 import { articleAPI } from '@/API/articles'
+import { useGetArticle } from '@/hooks/useGetArticle'
 import { PostArticleRequestData } from '@/types/articles'
 import { ErrorData } from '@/types/user'
 
 const Create = () => {
+  const { slug } = useParams()
   const navigate = useNavigate()
   const [tag, setTage] = useState<string>('')
   const [error, setError] = useState<string[]>([])
@@ -18,6 +20,19 @@ const Create = () => {
     body: '',
     tagList: [],
   })
+
+  useEffect(() => {
+    if (slug !== undefined) {
+      const { data: selectedArticle } = useGetArticle(slug)
+      selectedArticle &&
+        setArticleInfo({
+          title: selectedArticle.article.title,
+          description: selectedArticle.article.description,
+          body: selectedArticle.article.body,
+          tagList: selectedArticle.article.tagList,
+        })
+    }
+  }, [slug])
   const { mutate: postArticleMutate } = useMutation(articleAPI.post, {
     onSuccess: (data) => {
       const slug = data.article.slug
