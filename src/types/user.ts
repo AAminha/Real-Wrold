@@ -1,11 +1,18 @@
 export interface AuthDto<T> {
   user: T
 }
-export interface UserData {
-  email: string
+export interface UserDataDefault {
   username: string
   bio: string
   image: string
+}
+
+export interface UserData extends UserDataDefault {
+  email: string
+}
+
+export interface AuthorData extends UserDataDefault {
+  following: boolean
 }
 
 export interface PostLoginRequestData {
