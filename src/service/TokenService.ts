@@ -15,8 +15,10 @@ class TokenService {
     this.cookie.remove('realworld_token')
   }
 
-  headers() {
-    return `Token ${this.get()}`
+  get headers() {
+    return {
+      Authorization: `Token ${this.get()}`,
+    }
   }
 }
 
