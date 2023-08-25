@@ -1,8 +1,10 @@
 import React from 'react'
 
+import { useMutation } from 'react-query'
 import { useNavigate } from 'react-router-dom'
 import { useRecoilState } from 'recoil'
 
+import { articleAPI } from '@/API/articles'
 import { userState } from '@/states/userState'
 import { ArticleData } from '@/types/articles'
 
@@ -11,6 +13,12 @@ const ArticleButton = ({ article }: { article: ArticleData }) => {
   // TODO: 게시글 편집 및 삭제 버튼 기능 구현
   const navigate = useNavigate()
   const [currentUser] = useRecoilState(userState)
+  const { mutate: deleteArticleMutate } = useMutation(articleAPI.delete, {
+    onSuccess: (data) => {
+      console.log(data)
+      navigate('/')
+    },
+  })
   // 게시글 작성자가 본인일 때, Edit 및 Delete 버튼
   if (currentUser && currentUser.username === article.author.username)
     return (
@@ -25,7 +33,12 @@ const ArticleButton = ({ article }: { article: ArticleData }) => {
           &nbsp; Edit Article
         </button>
         &nbsp;
-        <button className="btn btn-outline-danger btn-sm">
+        <button
+          className="btn btn-outline-danger btn-sm"
+          onClick={() => {
+            deleteArticleMutate(article.slug)
+          }}
+        >
           <i className="ion-trash-a"></i>
           &nbsp; Delete Article
         </button>
