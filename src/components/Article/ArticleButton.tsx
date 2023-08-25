@@ -9,8 +9,23 @@ const ArticleButton = ({ article }: { article: ArticleData }) => {
   // TODO: 팔로우 버튼 기능 구현
   // TODO: 게시글 편집 및 삭제 버튼 기능 구현
   const [currentUser] = useRecoilState(userState)
+  // 게시글 작성자가 본인일 때, Edit 및 Delete 버튼
+  if (currentUser && currentUser.username === article.author.username)
+    return (
+      <>
+        <button className="btn btn-sm btn-outline-secondary">
+          <i className="ion-edit"></i>
+          &nbsp; Edit Article
+        </button>
+        &nbsp;
+        <button className="btn btn-outline-danger btn-sm">
+          <i className="ion-trash-a"></i>
+          &nbsp; Delete Article
+        </button>
+      </>
+    )
   // 게시글 작성자가 타인일 때, Follow 버튼
-  if (currentUser?.username !== article.author.username)
+  else
     return (
       <>
         <button
@@ -30,21 +45,6 @@ const ArticleButton = ({ article }: { article: ArticleData }) => {
           <i className="ion-heart"></i>
           &nbsp; {article.favorited ? 'Unfavorite' : 'Favorite'} Article{' '}
           <span className="counter">({article.favoritesCount})</span>
-        </button>
-      </>
-    )
-  // 게시글 작성자가 본인일 때, Edit 및 Delete 버튼
-  else
-    return (
-      <>
-        <button className="btn btn-sm btn-outline-secondary">
-          <i className="ion-edit"></i>
-          &nbsp; Edit Article
-        </button>
-        &nbsp;
-        <button className="btn btn-outline-danger btn-sm">
-          <i className="ion-trash-a"></i>
-          &nbsp; Delete Article
         </button>
       </>
     )
