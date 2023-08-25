@@ -11,6 +11,7 @@ import {
 import { authClient } from './client'
 
 export const articleAPI = {
+  // GET > /articles/feed
   getArticles: async ({
     tag,
     author,
@@ -53,6 +54,11 @@ export const articleAPI = {
     const response = await authClient.post<PutArticleResponse>('/articles', {
       article: article,
     })
+    return response.data
+  },
+  delete: async (slug: string) => {
+    // Auth is required
+    const response = await authClient.delete(`articles/${slug}`)
     return response.data
   },
   favorite: async (slug: string) => {
