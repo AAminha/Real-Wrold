@@ -1,24 +1,81 @@
 import React from 'react'
 
-import { useMutation } from 'react-query'
+import { QueryObserverResult, useMutation } from 'react-query'
 import { useNavigate } from 'react-router-dom'
 import { useRecoilState } from 'recoil'
 
 import { articleAPI } from '@/API/articles'
+import { profileAPI } from '@/API/profile'
 import { userState } from '@/states/userState'
-import { ArticleData } from '@/types/articles'
+import { ArticleData, GetArticleResponse } from '@/types/articles'
 
-const ArticleButton = ({ article }: { article: ArticleData }) => {
+const ArticleButton = ({
+  article,
+  articleRefetch,
+}: {
+  article: ArticleData
+  articleRefetch: () => Promise<QueryObserverResult<GetArticleResponse, unknown>>
+}) => {
   // TODO: 팔로우 버튼 기능 구현
-  // TODO: 게시글 편집 및 삭제 버튼 기능 구현
   const navigate = useNavigate()
   const [currentUser] = useRecoilState(userState)
+
+  // 게시글 삭제 기능
   const { mutate: deleteArticleMutate } = useMutation(articleAPI.delete, {
     onSuccess: (data) => {
       console.log(data)
       navigate('/')
     },
   })
+
+  // 팔로우 기능
+  const { mutate: postFollowMutate } = useMutation(profileAPI.follow, {
+    onSuccess: (data) => {
+      console.log(data)
+      articleRefetch()
+    },
+  })
+
+  // 언팔로우 기능
+  const { mutate: deleteFollowMutate } = useMutation(profileAPI.unfollow, {
+    onSuccess: (data) => {
+      console.log(data)
+      articleRefetch()
+    },
+  })
+
+  // 좋아요 기능
+  const { mutate: postFavoriteMutate } = useMutation(articleAPI.favorite, {
+    onSuccess: (data) => {
+      console.log(data)
+      articleRefetch()
+    },
+  })
+
+  // 좋아요 취소 기능
+  const { mutate: deleteFavoriteMutate } = useMutation(articleAPI.unfavorite, {
+    onSuccess: (data) => {
+      console.log(data)
+      articleRefetch()
+    },
+  })
+
+  const handleFollow = () => {
+    if (article.author.following) {
+      deleteFollowMutate(article.author.username)
+    } else {
+      postFollowMutate(article.author.username)
+    }
+  }
+
+  const handleFavorite = () => {
+    if (article.favorited) {
+      deleteFavoriteMutate(article.slug)
+    } else {
+      postFavoriteMutate(article.slug)
+    }
+  }
+
   // 게시글 작성자가 본인일 때, Edit 및 Delete 버튼
   if (currentUser && currentUser.username === article.author.username)
     return (
@@ -54,6 +111,7 @@ const ArticleButton = ({ article }: { article: ArticleData }) => {
               ? 'action-btn ng-binding btn-secondary'
               : 'btn-outline-secondary'
           }`}
+          onClick={handleFollow}
         >
           <i className="ion-plus-round"></i>
           &nbsp; {article.author.following ? 'Unfollow' : 'Follow'} {article.author.username}
@@ -61,6 +119,7 @@ const ArticleButton = ({ article }: { article: ArticleData }) => {
         &nbsp;
         <button
           className={`btn btn-sm ${article.favorited ? 'btn-primary' : 'btn-outline-primary'}`}
+          onClick={handleFavorite}
         >
           <i className="ion-heart"></i>
           &nbsp; {article.favorited ? 'Unfavorite' : 'Favorite'} Article{' '}
