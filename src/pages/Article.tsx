@@ -8,7 +8,7 @@ import { useGetArticle } from '@/hooks/useGetArticle'
 
 const Article = () => {
   const { slug } = useParams()
-  const { data: selectedArticle } = useGetArticle(slug ? slug : '')
+  const { data: selectedArticle, refetch: getArticleRefetch } = useGetArticle(slug ? slug : '')
   return (
     <div className="article-page">
       <div className="banner">
@@ -18,6 +18,7 @@ const Article = () => {
           {selectedArticle && (
             <ArticleMeta
               article={selectedArticle.article}
+              articleRefetch={getArticleRefetch}
               previewMode={false}
             />
           )}
@@ -48,6 +49,7 @@ const Article = () => {
           {selectedArticle && (
             <ArticleMeta
               article={selectedArticle?.article}
+              articleRefetch={getArticleRefetch}
               previewMode={false}
             />
           )}

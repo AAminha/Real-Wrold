@@ -1,14 +1,23 @@
 import React from 'react'
 
+import { QueryObserverResult } from 'react-query'
 import { Link } from 'react-router-dom'
 
-import { ArticleData } from '@/types/articles'
+import { ArticleData, GetArticleResponse } from '@/types/articles'
 import { DateFormat } from '@/utils/DateFormat'
 
 import ArticleButton from './ArticleButton'
 import FavoriteButton from './FavoriteButton'
 
-const ArticleMeta = ({ article, previewMode }: { article: ArticleData; previewMode: boolean }) => {
+const ArticleMeta = ({
+  article,
+  articleRefetch,
+  previewMode,
+}: {
+  article: ArticleData
+  articleRefetch: () => Promise<QueryObserverResult<GetArticleResponse, unknown>>
+  previewMode: boolean
+}) => {
   return (
     <div className="article-meta">
       <Link to={`/@${article.author.username}`}>
@@ -23,7 +32,14 @@ const ArticleMeta = ({ article, previewMode }: { article: ArticleData; previewMo
         </Link>
         <span className="date">{DateFormat(article.createdAt)}</span>
       </div>
-      {previewMode ? <FavoriteButton article={article} /> : <ArticleButton article={article} />}
+      {previewMode ? (
+        <FavoriteButton article={article} />
+      ) : (
+        <ArticleButton
+          article={article}
+          articleRefetch={articleRefetch}
+        />
+      )}
     </div>
   )
 }
