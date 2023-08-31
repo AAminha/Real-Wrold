@@ -8,19 +8,26 @@ import { commentAPI } from '@/API/comment'
 import { userState } from '@/states/userState'
 import { CommentData } from '@/types/comment'
 
-const CommentItem = ({ comments }: { comments: CommentData[] }) => {
+const CommentItem = ({
+  commentList,
+  setCommentList,
+}: {
+  commentList: CommentData[]
+  setCommentList: (newCommentList: CommentData[]) => void
+}) => {
   const { slug } = useParams()
   const [currentUser] = useRecoilState(userState)
 
   const { mutate: deleteCommentMutate } = useMutation(commentAPI.delete, {
-    onSuccess: (data) => {
+    onSuccess: ({ data, id }) => {
       console.log(data)
+      setCommentList(commentList.filter((comment) => comment.id !== id))
     },
   })
 
   return (
     <div>
-      {comments.map((comment: CommentData) => (
+      {commentList.map((comment: CommentData) => (
         <div
           className="card"
           key={comment.id}

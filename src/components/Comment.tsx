@@ -69,7 +69,10 @@ const Comment = () => {
           </div>
         </form>
 
-        <CommentItem comments={commentList} />
+        <CommentItem
+          commentList={commentList}
+          setCommentList={setCommentList}
+        />
       </div>
     </div>
   )
