@@ -1,32 +1,41 @@
 import React from 'react'
 
-const CommentItem = () => {
+import { useGetComment } from '@/hooks/useGetComment'
+import { CommentData } from '@/types/comment'
+
+const CommentItem = ({ slug }: { slug: string | undefined }) => {
+  const { data: comments } = useGetComment(slug ? slug : '')
   return (
-    <div className="card">
-      <div className="card-block">
-        <p className="card-text">
-          With supporting text below as a natural lead-in to additional content.
-        </p>
-      </div>
-      <div className="card-footer">
-        <a
-          href=""
-          className="comment-author"
+    <div>
+      {comments?.comments.map((comment: CommentData) => (
+        <div
+          className="card"
+          key={comment.id}
         >
-          <img
-            src="http://i.imgur.com/Qr71crq.jpg"
-            className="comment-author-img"
-          />
-        </a>
-        &nbsp;
-        <a
-          href=""
-          className="comment-author"
-        >
-          Jacob Schmidt
-        </a>
-        <span className="date-posted">Dec 29th</span>
-      </div>
+          <div className="card-block">
+            <p className="card-text">{comment.body}</p>
+          </div>
+          <div className="card-footer">
+            <a
+              href={`/@${comment.author.username}`}
+              className="comment-author"
+            >
+              <img
+                src={comment.author.image}
+                className="comment-author-img"
+              />
+            </a>
+            &nbsp;
+            <a
+              href={`/@${comment.author.username}`}
+              className="comment-author"
+            >
+              {comment.author.username}
+            </a>
+            <span className="date-posted">{comment.createdAt}</span>
+          </div>
+        </div>
+      ))}
     </div>
   )
 }

@@ -6,7 +6,7 @@ import { userState } from '@/states/userState'
 
 import CommentItem from './CommentItem'
 
-const Comment = () => {
+const Comment = ({ slug }: { slug: string | undefined }) => {
   const [comment, setComment] = useState<string>('')
   const [currentUser] = useRecoilState(userState)
 
@@ -38,7 +38,7 @@ const Comment = () => {
           </div>
         </form>
 
-        <CommentItem />
+        <CommentItem slug={slug} />
       </div>
     </div>
   )
