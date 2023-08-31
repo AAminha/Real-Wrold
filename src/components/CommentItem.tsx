@@ -1,8 +1,23 @@
 import React from 'react'
 
+import { useMutation } from 'react-query'
+import { useParams } from 'react-router-dom'
+import { useRecoilState } from 'recoil'
+
+import { commentAPI } from '@/API/comment'
+import { userState } from '@/states/userState'
 import { CommentData } from '@/types/comment'
 
-const CommentItem = ({ slug, comments }: { slug: string | undefined; comments: CommentData[] }) => {
+const CommentItem = ({ comments }: { comments: CommentData[] }) => {
+  const { slug } = useParams()
+  const [currentUser] = useRecoilState(userState)
+
+  const { mutate: deleteCommentMutate } = useMutation(commentAPI.delete, {
+    onSuccess: (data) => {
+      console.log(data)
+    },
+  })
+
   return (
     <div>
       {comments.map((comment: CommentData) => (
@@ -31,6 +46,16 @@ const CommentItem = ({ slug, comments }: { slug: string | undefined; comments: C
               {comment.author.username}
             </a>
             <span className="date-posted">{comment.createdAt}</span>
+            {currentUser?.username === comment.author.username && (
+              <span className="mod-options">
+                <i
+                  className="ion-trash-a"
+                  onClick={() => {
+                    deleteCommentMutate({ slug: slug ? slug : '', id: comment.id })
+                  }}
+                ></i>
+              </span>
+            )}
           </div>
         </div>
       ))}
