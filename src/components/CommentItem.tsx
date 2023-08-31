@@ -1,13 +1,11 @@
 import React from 'react'
 
-import { useGetComment } from '@/hooks/useGetComment'
 import { CommentData } from '@/types/comment'
 
-const CommentItem = ({ slug }: { slug: string | undefined }) => {
-  const { data: comments } = useGetComment(slug ? slug : '')
+const CommentItem = ({ slug, comments }: { slug: string | undefined; comments: CommentData[] }) => {
   return (
     <div>
-      {comments?.comments.map((comment: CommentData) => (
+      {comments.map((comment: CommentData) => (
         <div
           className="card"
           key={comment.id}

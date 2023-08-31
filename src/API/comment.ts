@@ -1,4 +1,4 @@
-import { CommentGetResponse } from '@/types/comment'
+import { CommentGetResponse, CommentPostResponse } from '@/types/comment'
 
 import { authClient, client } from './client'
 
@@ -10,7 +10,7 @@ export const commentAPI = {
   },
   post: async ({ slug, comment }: { slug: string; comment: string }) => {
     // Auth is requried
-    const response = await authClient.post<CommentGetResponse>(`articles/${slug}/comments`, {
+    const response = await authClient.post<CommentPostResponse>(`articles/${slug}/comments`, {
       comment: {
         body: comment,
       },
