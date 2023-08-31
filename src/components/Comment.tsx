@@ -69,10 +69,7 @@ const Comment = () => {
           </div>
         </form>
 
-        <CommentItem
-          slug={slug}
-          comments={commentList}
-        />
+        <CommentItem comments={commentList} />
       </div>
     </div>
   )

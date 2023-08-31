@@ -17,7 +17,7 @@ export const commentAPI = {
     })
     return response.data
   },
-  delete: async (slug: string, id: number) => {
+  delete: async ({ slug, id }: { slug: string; id: number }) => {
     // Auth is required
     const response = await authClient.delete(`articles/${slug}/comments/${id}`)
     return response.data
