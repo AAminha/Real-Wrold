@@ -1,8 +1,20 @@
-import React from 'react'
+import React, { ChangeEvent, useState } from 'react'
+
+import { useRecoilState } from 'recoil'
+
+import { userState } from '@/states/userState'
 
 import CommentItem from './CommentItem'
 
 const Comment = () => {
+  const [comment, setComment] = useState<string>('')
+  const [currentUser] = useRecoilState(userState)
+
+  const handleChangeTextarea = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    const { value } = e.target
+    setComment(value)
+  }
+
   return (
     <div className="row">
       <div className="col-xs-12 col-md-8 offset-md-2">
@@ -12,11 +24,14 @@ const Comment = () => {
               className="form-control"
               placeholder="Write a comment..."
               rows={3}
+              name="comment"
+              value={comment}
+              onChange={handleChangeTextarea}
             ></textarea>
           </div>
           <div className="card-footer">
             <img
-              src="http://i.imgur.com/Qr71crq.jpg"
+              src={currentUser?.image}
               className="comment-author-img"
             />
             <button className="btn btn-sm btn-primary">Post Comment</button>
