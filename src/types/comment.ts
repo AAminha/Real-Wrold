@@ -1,7 +1,11 @@
 import { ProfileResponseData } from './profile'
 
-export interface CommentDto<T> {
+export interface CommentsDto<T> {
   comments: T[]
+}
+
+export interface CommentDto<T> {
+  comment: T
 }
 
 export interface CommentData {
@@ -12,4 +16,5 @@ export interface CommentData {
   author: ProfileResponseData
 }
 
-export type CommentResponse = CommentDto<CommentData>
+export type CommentGetResponse = CommentsDto<CommentData>
+export type CommentPostResponse = CommentDto<CommentData>
