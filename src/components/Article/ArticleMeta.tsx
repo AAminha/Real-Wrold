@@ -15,7 +15,7 @@ const ArticleMeta = ({
   previewMode,
 }: {
   article: ArticleData
-  articleRefetch: () => Promise<QueryObserverResult<GetArticleResponse, unknown>>
+  articleRefetch?: () => Promise<QueryObserverResult<GetArticleResponse, unknown>>
   previewMode: boolean
 }) => {
   return (
@@ -37,7 +37,7 @@ const ArticleMeta = ({
       ) : (
         <ArticleButton
           article={article}
-          articleRefetch={articleRefetch}
+          articleRefetch={articleRefetch!}
         />
       )}
     </div>
