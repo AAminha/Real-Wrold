@@ -25,7 +25,7 @@ const Comment = () => {
   const { mutate: postCommentMutate } = useMutation(commentAPI.post, {
     onSuccess: (data) => {
       console.log(data)
-      setCommentList((commentList) => [...commentList])
+      setCommentList((commentList) => [...commentList, data.comment])
     },
   })
 
