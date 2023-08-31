@@ -55,7 +55,7 @@ const Article = () => {
           )}
         </div>
 
-        <Comment />
+        <Comment slug={selectedArticle?.article.slug} />
       </div>
     </div>
   )
