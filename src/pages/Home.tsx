@@ -1,8 +1,14 @@
-import React from 'react'
+import React, { useState } from 'react'
+
+import { Link } from 'react-router-dom'
+import { useRecoilState } from 'recoil'
 
 import ArticlePreview from '@/components/Article/ArticlePreview'
+import { userState } from '@/states/userState'
 
 const Home = () => {
+  const [currentUser] = useRecoilState(userState)
+  const [activeFeed, setActiveFeed] = useState<'Global' | 'Your'>(currentUser ? 'Your' : 'Global')
   return (
     <div className="home-page">
       <div className="banner">
@@ -17,21 +23,27 @@ const Home = () => {
           <div className="col-md-9">
             <div className="feed-toggle">
               <ul className="nav nav-pills outline-active">
+                {currentUser && (
+                  <li className="nav-item">
+                    <div
+                      className={`nav-link ${activeFeed === 'Your' && 'active'}`}
+                      onClick={() => {
+                        setActiveFeed('Your')
+                      }}
+                    >
+                      Your Feed
+                    </div>
+                  </li>
+                )}
                 <li className="nav-item">
-                  <a
-                    className="nav-link disabled"
-                    href=""
-                  >
-                    Your Feed
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a
-                    className="nav-link active"
-                    href=""
+                  <div
+                    className={`nav-link ${activeFeed === 'Global' && 'active'}`}
+                    onClick={() => {
+                      setActiveFeed('Global')
+                    }}
                   >
                     Global Feed
-                  </a>
+                  </div>
                 </li>
               </ul>
             </div>
