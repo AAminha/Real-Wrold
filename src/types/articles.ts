@@ -1,4 +1,4 @@
-import { UserData } from './user'
+import { AuthorData } from './user'
 
 export interface ArticlesDto<T> {
   articles: T[]
@@ -33,7 +33,7 @@ export interface ArticleData {
   updatedAt: string
   favorited: boolean
   favoritesCount: number
-  author: UserData
+  author: AuthorData
 }
 
 export type PostArticleRequest = ArticleDto<PostArticleRequestData>

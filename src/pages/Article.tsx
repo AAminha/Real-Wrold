@@ -1,24 +1,30 @@
 import React from 'react'
 
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
+import { useRecoilState } from 'recoil'
 
-// import ArticleMeta from '@/components/Article/ArticleMeta'
+import ArticleMeta from '@/components/Article/ArticleMeta'
 import Comment from '@/components/Comment'
 import { useGetArticle } from '@/hooks/useGetArticle'
+import { userState } from '@/states/userState'
 
 const Article = () => {
   const { slug } = useParams()
-  const { data: selectedArticle } = useGetArticle(slug ? slug : '')
+  const [currentUser] = useRecoilState(userState)
+  const { data: selectedArticle, refetch: getArticleRefetch } = useGetArticle(slug ? slug : '')
   return (
     <div className="article-page">
       <div className="banner">
         <div className="container">
           <h1>{selectedArticle?.article.title}</h1>
 
-          {/* <ArticleMeta
-            article={selectedArticle?.article}
-            previewMode={false}
-          /> */}
+          {selectedArticle && (
+            <ArticleMeta
+              article={selectedArticle.article}
+              articleRefetch={getArticleRefetch}
+              previewMode={false}
+            />
+          )}
         </div>
       </div>
 
@@ -29,17 +35,39 @@ const Article = () => {
             <p>{selectedArticle?.article.body}</p>
           </div>
         </div>
+        <ul className="tag-list">
+          {selectedArticle?.article.tagList.map((tag) => (
+            <li
+              key={tag}
+              className="tag-default tag-pill tag-outline ng-binding ng-scope"
+            >
+              {tag}
+            </li>
+          ))}
+        </ul>
 
         <hr />
 
         <div className="article-actions">
-          {/* <ArticleMeta
-            article={selectedArticle?.article}
-            previewMode={false}
-          /> */}
+          {selectedArticle && (
+            <ArticleMeta
+              article={selectedArticle?.article}
+              articleRefetch={getArticleRefetch}
+              previewMode={false}
+            />
+          )}
         </div>
 
-        <Comment />
+        {currentUser ? (
+          <Comment />
+        ) : (
+          <div className="col-xs-12 col-md-8 pffset-md-2">
+            <p style={{ display: 'inherit' }}>
+              <Link to="/login">Sign in</Link>&nbsp;or&nbsp;<Link to="/register">sign up</Link> to
+              add comments on this article.
+            </p>
+          </div>
+        )}
       </div>
     </div>
   )

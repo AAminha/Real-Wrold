@@ -6,6 +6,7 @@ import Footer from './components/Footer'
 import Header from './components/Header/Header'
 import Article from './pages/Article'
 import Create from './pages/Create'
+import Edit from './pages/Edit'
 import Home from './pages/Home'
 import Login from './pages/Login'
 import Profile from './pages/Profile'
@@ -35,7 +36,7 @@ const App = () => {
         />
         <Route
           path="/editor/:slug"
-          element={<Create />}
+          element={<Edit />}
         />
         <Route
           path="/settings"

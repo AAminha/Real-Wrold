@@ -10,7 +10,11 @@ export const client = axios.create({
 
 export const authClient = axios.create({
   baseURL: baseURL,
-  headers: {
-    Authorization: api.headers(),
-  },
+})
+
+authClient.interceptors.request.use((config) => {
+  if (api.get() !== undefined) {
+    config.headers.Authorization = `Token ${api.get()}`
+  }
+  return config
 })
