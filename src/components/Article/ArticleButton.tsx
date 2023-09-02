@@ -16,7 +16,6 @@ const ArticleButton = ({
   article: ArticleData
   articleRefetch: () => Promise<QueryObserverResult<GetArticleResponse, unknown>>
 }) => {
-  // TODO: 팔로우 버튼 기능 구현
   const navigate = useNavigate()
   const [currentUser] = useRecoilState(userState)
 
@@ -111,7 +110,9 @@ const ArticleButton = ({
               ? 'action-btn ng-binding btn-secondary'
               : 'btn-outline-secondary'
           }`}
-          onClick={handleFollow}
+          onClick={() => {
+            currentUser ? handleFollow() : navigate('/register')
+          }}
         >
           <i className="ion-plus-round"></i>
           &nbsp; {article.author.following ? 'Unfollow' : 'Follow'} {article.author.username}
@@ -119,7 +120,9 @@ const ArticleButton = ({
         &nbsp;
         <button
           className={`btn btn-sm ${article.favorited ? 'btn-primary' : 'btn-outline-primary'}`}
-          onClick={handleFavorite}
+          onClick={() => {
+            currentUser ? handleFavorite() : navigate('/register')
+          }}
         >
           <i className="ion-heart"></i>
           &nbsp; {article.favorited ? 'Unfavorite' : 'Favorite'} Article{' '}
