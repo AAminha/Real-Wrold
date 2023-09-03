@@ -1,14 +1,35 @@
 import React, { useState } from 'react'
 
-import { Link } from 'react-router-dom'
 import { useRecoilState } from 'recoil'
 
 import ArticlePreview from '@/components/Article/ArticlePreview'
+import { useGetArticles } from '@/hooks/useGetArticles'
+import { useGetTags } from '@/hooks/useGetTag'
 import { userState } from '@/states/userState'
 
 const Home = () => {
   const [currentUser] = useRecoilState(userState)
-  const [activeFeed, setActiveFeed] = useState<'Global' | 'Your'>(currentUser ? 'Your' : 'Global')
+  const [activeFeed, setActiveFeed] = useState<string>(currentUser ? 'Your' : 'Global')
+  const { data: tags } = useGetTags()
+  const {
+    data: globalFeedArticles,
+    isLoading: globalFeedArticlesLoading,
+    isFetching: globalFeedArticlesFetching,
+  } = useGetArticles({})
+  const {
+    data: yourFeedArticles,
+    isLoading: yourFeedArticlesLoading,
+    isFetching: yourFeedArticlesFetching,
+  } = useGetArticles({ favorited: currentUser?.username })
+
+  const {
+    data: tagArticles,
+    isLoading: tagArticlesLoading,
+    isFetching: tagArticlesFetching,
+  } = useGetArticles({
+    tag: activeFeed !== 'Your' && activeFeed !== 'Global' ? activeFeed : '',
+  })
+
   return (
     <div className="home-page">
       <div className="banner">
@@ -45,68 +66,59 @@ const Home = () => {
                     Global Feed
                   </div>
                 </li>
+                {activeFeed !== 'Your' && activeFeed !== 'Global' && (
+                  <li className="nav-item">
+                    <div
+                      className={`nav-link ${
+                        activeFeed !== 'Global' && activeFeed !== 'Your' && 'active'
+                      }`}
+                      onClick={() => {
+                        setActiveFeed('Global')
+                      }}
+                    >
+                      <i className="ion-pound"></i> {activeFeed}
+                    </div>
+                  </li>
+                )}
               </ul>
             </div>
-            <ArticlePreview
-              articles={[]}
-              loading={true}
-            />
+            {activeFeed === 'Your' && (
+              <ArticlePreview
+                articles={yourFeedArticles?.articles}
+                loading={yourFeedArticlesLoading || yourFeedArticlesFetching}
+              />
+            )}
+            {activeFeed === 'Global' && (
+              <ArticlePreview
+                articles={globalFeedArticles?.articles}
+                loading={globalFeedArticlesLoading || globalFeedArticlesFetching}
+              />
+            )}
+            {activeFeed !== 'Your' && activeFeed !== 'Global' && (
+              <ArticlePreview
+                articles={tagArticles?.articles}
+                loading={tagArticlesLoading || tagArticlesFetching}
+              />
+            )}
           </div>
 
           <div className="col-md-3">
             <div className="sidebar">
               <p>Popular Tags</p>
-
-              <div className="tag-list">
-                <a
-                  href=""
-                  className="tag-pill tag-default"
-                >
-                  programming
-                </a>
-                <a
-                  href=""
-                  className="tag-pill tag-default"
-                >
-                  javascript
-                </a>
-                <a
-                  href=""
-                  className="tag-pill tag-default"
-                >
-                  emberjs
-                </a>
-                <a
-                  href=""
-                  className="tag-pill tag-default"
-                >
-                  angularjs
-                </a>
-                <a
-                  href=""
-                  className="tag-pill tag-default"
-                >
-                  react
-                </a>
-                <a
-                  href=""
-                  className="tag-pill tag-default"
-                >
-                  mean
-                </a>
-                <a
-                  href=""
-                  className="tag-pill tag-default"
-                >
-                  node
-                </a>
-                <a
-                  href=""
-                  className="tag-pill tag-default"
-                >
-                  rails
-                </a>
-              </div>
+              {tags &&
+                tags.tags.map((tag) => (
+                  <a
+                    href=""
+                    key={tag}
+                    className="tag-pill tag-default"
+                    onClick={(e) => {
+                      e.preventDefault()
+                      setActiveFeed(tag)
+                    }}
+                  >
+                    {tag}
+                  </a>
+                ))}
             </div>
           </div>
         </div>
