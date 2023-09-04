@@ -4,7 +4,7 @@ import { tagsAPI } from '@/API/tag'
 
 export const useGetTags = () => {
   return useQuery(['getTags'], () => tagsAPI.get(), {
-    enabled: true,
+    enabled: false,
     onSuccess: (data) => {
       console.log(data)
     },

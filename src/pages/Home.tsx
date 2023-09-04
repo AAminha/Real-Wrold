@@ -1,7 +1,9 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
+import { useQuery } from 'react-query'
 import { useRecoilState } from 'recoil'
 
+import { tagsAPI } from '@/API/tag'
 import ArticlePreview from '@/components/Article/ArticlePreview'
 import { useGetArticles } from '@/hooks/useGetArticles'
 import { useGetTags } from '@/hooks/useGetTag'
@@ -9,26 +11,44 @@ import { userState } from '@/states/userState'
 
 const Home = () => {
   const [currentUser] = useRecoilState(userState)
-  const [activeFeed, setActiveFeed] = useState<string>(currentUser ? 'Your' : 'Global')
-  const { data: tags } = useGetTags()
+  const [activeFeed, setActiveFeed] = useState<'Global' | 'Your' | 'Tag'>(
+    currentUser ? 'Your' : 'Global'
+  )
+  const [selectedTag, setSelectedTag] = useState<string>('')
+  const { data: tags, refetch: tagsRefetch } = useGetTags()
+
   const {
     data: globalFeedArticles,
+    refetch: globalFeedArticlesFetch,
     isLoading: globalFeedArticlesLoading,
     isFetching: globalFeedArticlesFetching,
   } = useGetArticles({})
   const {
     data: yourFeedArticles,
+    refetch: yourFeedArticlesFetch,
     isLoading: yourFeedArticlesLoading,
     isFetching: yourFeedArticlesFetching,
   } = useGetArticles({ favorited: currentUser?.username })
 
   const {
     data: tagArticles,
+    refetch: tagFeedArticlesFetch,
     isLoading: tagArticlesLoading,
     isFetching: tagArticlesFetching,
   } = useGetArticles({
-    tag: activeFeed !== 'Your' && activeFeed !== 'Global' ? activeFeed : '',
+    tag: selectedTag,
   })
+
+  useEffect(() => {
+    tagsRefetch()
+    if (activeFeed === 'Your') yourFeedArticlesFetch()
+    else if (activeFeed === 'Global') globalFeedArticlesFetch()
+    setActiveFeed(currentUser ? 'Your' : 'Global')
+  }, [])
+
+  useEffect(() => {
+    if (selectedTag !== '') tagFeedArticlesFetch()
+  }, [selectedTag])
 
   return (
     <div className="home-page">
@@ -50,6 +70,7 @@ const Home = () => {
                       className={`nav-link ${activeFeed === 'Your' && 'active'}`}
                       onClick={() => {
                         setActiveFeed('Your')
+                        yourFeedArticlesFetch()
                       }}
                     >
                       Your Feed
@@ -61,22 +82,16 @@ const Home = () => {
                     className={`nav-link ${activeFeed === 'Global' && 'active'}`}
                     onClick={() => {
                       setActiveFeed('Global')
+                      globalFeedArticlesFetch()
                     }}
                   >
                     Global Feed
                   </div>
                 </li>
-                {activeFeed !== 'Your' && activeFeed !== 'Global' && (
+                {activeFeed === 'Tag' && (
                   <li className="nav-item">
-                    <div
-                      className={`nav-link ${
-                        activeFeed !== 'Global' && activeFeed !== 'Your' && 'active'
-                      }`}
-                      onClick={() => {
-                        setActiveFeed('Global')
-                      }}
-                    >
-                      <i className="ion-pound"></i> {activeFeed}
+                    <div className={`nav-link ${activeFeed === 'Tag' && 'active'}`}>
+                      <i className="ion-pound"></i> {selectedTag}
                     </div>
                   </li>
                 )}
@@ -94,7 +109,7 @@ const Home = () => {
                 loading={globalFeedArticlesLoading || globalFeedArticlesFetching}
               />
             )}
-            {activeFeed !== 'Your' && activeFeed !== 'Global' && (
+            {activeFeed === 'Tag' && (
               <ArticlePreview
                 articles={tagArticles?.articles}
                 loading={tagArticlesLoading || tagArticlesFetching}
@@ -113,7 +128,7 @@ const Home = () => {
                     className="tag-pill tag-default"
                     onClick={(e) => {
                       e.preventDefault()
-                      setActiveFeed(tag)
+                      setSelectedTag(tag)
                     }}
                   >
                     {tag}
