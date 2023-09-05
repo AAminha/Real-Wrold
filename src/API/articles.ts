@@ -11,7 +11,16 @@ import {
 import { authClient } from './client'
 
 export const articleAPI = {
-  // GET > /articles/feed
+  getFollowArticles: async ({ offset, limit }: { offset?: number; limit?: number }) => {
+    // Auth is required
+    const response = await authClient.get<GetArticlesResponse>('/articles/feed', {
+      params: {
+        offset: offset,
+        limit: limit,
+      },
+    })
+    return response.data
+  },
   getArticles: async ({
     tag,
     author,
