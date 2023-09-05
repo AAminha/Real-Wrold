@@ -61,6 +61,7 @@ const ArticlePreview = ({
         <div>No articles are here... yet.</div>
       </div>
     )
+  else return null
 }
 
 export default ArticlePreview
