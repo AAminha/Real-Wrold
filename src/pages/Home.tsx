@@ -129,6 +129,7 @@ const Home = () => {
                     className="tag-pill tag-default"
                     onClick={(e) => {
                       e.preventDefault()
+                      setActiveFeed('Tag')
                       setSelectedTag(tag)
                     }}
                   >
