@@ -6,6 +6,7 @@ import { useRecoilState } from 'recoil'
 import { tagsAPI } from '@/API/tag'
 import ArticlePreview from '@/components/Article/ArticlePreview'
 import { useGetArticles } from '@/hooks/useGetArticles'
+import { useGetFollowArticles } from '@/hooks/useGetFollowArticles'
 import { useGetTags } from '@/hooks/useGetTag'
 import { userState } from '@/states/userState'
 
@@ -28,7 +29,7 @@ const Home = () => {
     refetch: yourFeedArticlesFetch,
     isLoading: yourFeedArticlesLoading,
     isFetching: yourFeedArticlesFetching,
-  } = useGetArticles({ favorited: currentUser?.username })
+  } = useGetFollowArticles({})
 
   const {
     data: tagArticles,
