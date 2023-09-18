@@ -27,7 +27,7 @@ const LoginNavbar = ({ currentUser }: { currentUser: UserData }) => {
           </li>
           <li className="nav-item">
             <Link
-              className={`nav-link ${location.pathname === '/editor' && 'active'}`}
+              className={`nav-link ${location.pathname.includes('/editor') && 'active'}`}
               to="/editor"
             >
               {' '}
@@ -45,7 +45,9 @@ const LoginNavbar = ({ currentUser }: { currentUser: UserData }) => {
           </li>
           <li className="nav-item">
             <Link
-              className={`nav-link ${location.pathname.includes('/profile') && 'active'}`}
+              className={`nav-link ${
+                location.pathname.includes(`/@${currentUser.username}`) && 'active'
+              }`}
               to={`/@${currentUser?.username}`}
             >
               <img
