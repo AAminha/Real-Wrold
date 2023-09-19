@@ -41,17 +41,17 @@ const Home = () => {
     isFetching: tagArticlesFetching,
   } = useGetArticles({
     tag: selectedTag,
+    limit: MAIN_LIMIT,
+    page: currentPage,
   })
 
   useEffect(() => {
-    tagsRefetch()
     if (activeFeed === 'Your') yourFeedArticlesFetch()
     else if (activeFeed === 'Global') globalFeedArticlesFetch()
-    setActiveFeed(currentUser ? 'Your' : 'Global')
-    setCurrentPage(1)
   }, [currentPage])
 
   useEffect(() => {
+    tagsRefetch()
     if (selectedTag !== '') tagFeedArticlesFetch()
     setCurrentPage(1)
   }, [selectedTag])
@@ -76,7 +76,8 @@ const Home = () => {
                       className={`nav-link ${activeFeed === 'Your' && 'active'}`}
                       onClick={() => {
                         setActiveFeed('Your')
-                        yourFeedArticlesFetch()
+                        //yourFeedArticlesFetch()
+                        setCurrentPage(1)
                       }}
                     >
                       Your Feed
@@ -88,7 +89,8 @@ const Home = () => {
                     className={`nav-link ${activeFeed === 'Global' && 'active'}`}
                     onClick={() => {
                       setActiveFeed('Global')
-                      globalFeedArticlesFetch()
+                      //globalFeedArticlesFetch()
+                      setCurrentPage(1)
                     }}
                   >
                     Global Feed
@@ -146,21 +148,21 @@ const Home = () => {
         </div>
         {activeFeed === 'Global' && globalFeedArticles && (
           <Pagination
-            totalPage={Math.ceil(globalFeedArticles?.articlesCount % MAIN_LIMIT)}
+            totalPage={Math.ceil(globalFeedArticles?.articlesCount / MAIN_LIMIT)}
             currentPage={currentPage}
             setCurrentPage={setCurrentPage}
           />
         )}
         {activeFeed === 'Your' && yourFeedArticles && (
           <Pagination
-            totalPage={Math.ceil(yourFeedArticles.articlesCount % MAIN_LIMIT)}
+            totalPage={Math.ceil(yourFeedArticles.articlesCount / MAIN_LIMIT)}
             currentPage={currentPage}
             setCurrentPage={setCurrentPage}
           />
         )}
         {activeFeed === 'Tag' && tagArticles && (
           <Pagination
-            totalPage={Math.ceil(tagArticles.articlesCount % MAIN_LIMIT)}
+            totalPage={Math.ceil(tagArticles.articlesCount / MAIN_LIMIT)}
             currentPage={currentPage}
             setCurrentPage={setCurrentPage}
           />

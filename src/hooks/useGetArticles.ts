@@ -12,8 +12,8 @@ export const useGetArticles = ({
   tag?: string
   author?: string
   favorited?: string
-  limit?: number
-  page?: number
+  limit: number
+  page: number
 }) => {
   return useQuery(
     ['getAritlces', tag, author, favorited, limit, page],
