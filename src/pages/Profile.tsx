@@ -22,6 +22,8 @@ const Profile = () => {
     isFetching: myArticlesFetching,
   } = useGetArticles({
     author: username,
+    limit: 10,
+    page: 1,
   })
   const {
     data: favoritedArticlesData,
@@ -30,6 +32,8 @@ const Profile = () => {
     isFetching: favoritedArticlesFetching,
   } = useGetArticles({
     favorited: username,
+    limit: 10,
+    page: 1,
   })
 
   useEffect(() => {
