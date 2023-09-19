@@ -5,6 +5,8 @@ import { useRecoilState } from 'recoil'
 
 import { tagsAPI } from '@/API/tag'
 import ArticlePreview from '@/components/Article/ArticlePreview'
+import Pagination from '@/components/Pagination'
+import { MAIN_LIMIT } from '@/constants'
 import { useGetArticles } from '@/hooks/useGetArticles'
 import { useGetFollowArticles } from '@/hooks/useGetFollowArticles'
 import { useGetTags } from '@/hooks/useGetTag'
@@ -17,13 +19,14 @@ const Home = () => {
   )
   const [selectedTag, setSelectedTag] = useState<string>('')
   const { data: tags, refetch: tagsRefetch } = useGetTags()
+  const [currentPage, setCurrentPage] = useState<number>(1)
 
   const {
     data: globalFeedArticles,
     refetch: globalFeedArticlesFetch,
     isLoading: globalFeedArticlesLoading,
     isFetching: globalFeedArticlesFetching,
-  } = useGetArticles({})
+  } = useGetArticles({ limit: MAIN_LIMIT, page: currentPage })
   const {
     data: yourFeedArticles,
     refetch: yourFeedArticlesFetch,
@@ -45,10 +48,12 @@ const Home = () => {
     if (activeFeed === 'Your') yourFeedArticlesFetch()
     else if (activeFeed === 'Global') globalFeedArticlesFetch()
     setActiveFeed(currentUser ? 'Your' : 'Global')
-  }, [])
+    setCurrentPage(1)
+  }, [currentPage])
 
   useEffect(() => {
     if (selectedTag !== '') tagFeedArticlesFetch()
+    setCurrentPage(1)
   }, [selectedTag])
 
   return (
@@ -139,6 +144,27 @@ const Home = () => {
             </div>
           </div>
         </div>
+        {activeFeed === 'Global' && globalFeedArticles && (
+          <Pagination
+            totalPage={Math.ceil(globalFeedArticles?.articlesCount % MAIN_LIMIT)}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+          />
+        )}
+        {activeFeed === 'Your' && yourFeedArticles && (
+          <Pagination
+            totalPage={Math.ceil(yourFeedArticles.articlesCount % MAIN_LIMIT)}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+          />
+        )}
+        {activeFeed === 'Tag' && tagArticles && (
+          <Pagination
+            totalPage={Math.ceil(tagArticles.articlesCount % MAIN_LIMIT)}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+          />
+        )}
       </div>
     </div>
   )
