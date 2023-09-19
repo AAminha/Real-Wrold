@@ -1,3 +1,4 @@
+import { MAIN_LIMIT } from '@/constants'
 import {
   FavoriteResponse,
   GetArticleResponse,
@@ -11,12 +12,12 @@ import {
 import { authClient } from './client'
 
 export const articleAPI = {
-  getFollowArticles: async ({ offset, limit }: { offset?: number; limit?: number }) => {
+  getFollowArticles: async ({ page }: { page: number }) => {
     // Auth is required
     const response = await authClient.get<GetArticlesResponse>('/articles/feed', {
       params: {
-        offset: offset,
-        limit: limit,
+        offset: MAIN_LIMIT * (page - 1),
+        limit: MAIN_LIMIT,
       },
     })
     return response.data
@@ -25,14 +26,14 @@ export const articleAPI = {
     tag,
     author,
     favorited,
-    offset,
     limit,
+    page,
   }: {
     tag?: string
     author?: string
     favorited?: string
-    offset?: number
-    limit?: number
+    limit: number
+    page: number
   }) => {
     // Auth is optional
     const response = await authClient.get<GetArticlesResponse>('/articles', {
@@ -40,7 +41,7 @@ export const articleAPI = {
         tag: tag,
         author: author,
         favorited: favorited,
-        offset: offset,
+        offset: limit * (page - 1),
         limit: limit,
       },
     })

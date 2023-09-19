@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
 
-import { useQuery } from 'react-query'
 import { useRecoilState } from 'recoil'
 
-import { tagsAPI } from '@/API/tag'
 import ArticlePreview from '@/components/Article/ArticlePreview'
+import Pagination from '@/components/Pagination'
+import { MAIN_LIMIT } from '@/constants'
 import { useGetArticles } from '@/hooks/useGetArticles'
 import { useGetFollowArticles } from '@/hooks/useGetFollowArticles'
 import { useGetTags } from '@/hooks/useGetTag'
@@ -17,19 +17,20 @@ const Home = () => {
   )
   const [selectedTag, setSelectedTag] = useState<string>('')
   const { data: tags, refetch: tagsRefetch } = useGetTags()
+  const [currentPage, setCurrentPage] = useState<number>(1)
 
   const {
     data: globalFeedArticles,
     refetch: globalFeedArticlesFetch,
     isLoading: globalFeedArticlesLoading,
     isFetching: globalFeedArticlesFetching,
-  } = useGetArticles({})
+  } = useGetArticles({ limit: MAIN_LIMIT, page: currentPage })
   const {
     data: yourFeedArticles,
     refetch: yourFeedArticlesFetch,
     isLoading: yourFeedArticlesLoading,
     isFetching: yourFeedArticlesFetching,
-  } = useGetFollowArticles({})
+  } = useGetFollowArticles({ page: currentPage })
 
   const {
     data: tagArticles,
@@ -38,17 +39,19 @@ const Home = () => {
     isFetching: tagArticlesFetching,
   } = useGetArticles({
     tag: selectedTag,
+    limit: MAIN_LIMIT,
+    page: currentPage,
   })
 
   useEffect(() => {
-    tagsRefetch()
     if (activeFeed === 'Your') yourFeedArticlesFetch()
     else if (activeFeed === 'Global') globalFeedArticlesFetch()
-    setActiveFeed(currentUser ? 'Your' : 'Global')
-  }, [])
+  }, [currentPage])
 
   useEffect(() => {
+    tagsRefetch()
     if (selectedTag !== '') tagFeedArticlesFetch()
+    setCurrentPage(1)
   }, [selectedTag])
 
   return (
@@ -71,7 +74,8 @@ const Home = () => {
                       className={`nav-link ${activeFeed === 'Your' && 'active'}`}
                       onClick={() => {
                         setActiveFeed('Your')
-                        yourFeedArticlesFetch()
+                        //yourFeedArticlesFetch()
+                        setCurrentPage(1)
                       }}
                     >
                       Your Feed
@@ -83,7 +87,8 @@ const Home = () => {
                     className={`nav-link ${activeFeed === 'Global' && 'active'}`}
                     onClick={() => {
                       setActiveFeed('Global')
-                      globalFeedArticlesFetch()
+                      //globalFeedArticlesFetch()
+                      setCurrentPage(1)
                     }}
                   >
                     Global Feed
@@ -139,6 +144,27 @@ const Home = () => {
             </div>
           </div>
         </div>
+        {activeFeed === 'Global' && globalFeedArticles && (
+          <Pagination
+            totalPage={Math.ceil(globalFeedArticles?.articlesCount / MAIN_LIMIT)}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+          />
+        )}
+        {activeFeed === 'Your' && yourFeedArticles && (
+          <Pagination
+            totalPage={Math.ceil(yourFeedArticles.articlesCount / MAIN_LIMIT)}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+          />
+        )}
+        {activeFeed === 'Tag' && tagArticles && (
+          <Pagination
+            totalPage={Math.ceil(tagArticles.articlesCount / MAIN_LIMIT)}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+          />
+        )}
       </div>
     </div>
   )

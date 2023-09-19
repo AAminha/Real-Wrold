@@ -6,18 +6,16 @@ export const useGetFollowArticles = ({
   tag,
   author,
   favorited,
-  offset,
-  limit,
+  page,
 }: {
   tag?: string
   author?: string
   favorited?: string
-  offset?: number
-  limit?: number
+  page: number
 }) => {
   return useQuery(
-    ['getFollowAritlces', tag, author, favorited, offset, limit],
-    () => articleAPI.getFollowArticles({ offset, limit }),
+    ['getFollowAritlces', tag, author, favorited, page],
+    () => articleAPI.getFollowArticles({ page }),
     {
       enabled: false,
       onSuccess: (data) => {

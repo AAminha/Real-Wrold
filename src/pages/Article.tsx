@@ -4,7 +4,7 @@ import { Link, useParams } from 'react-router-dom'
 import { useRecoilState } from 'recoil'
 
 import ArticleMeta from '@/components/Article/ArticleMeta'
-import Comment from '@/components/Comment'
+import Comment from '@/components/Comment/Comment'
 import { useGetArticle } from '@/hooks/useGetArticle'
 import { userState } from '@/states/userState'
 

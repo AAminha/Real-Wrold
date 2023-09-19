@@ -6,18 +6,18 @@ export const useGetArticles = ({
   tag,
   author,
   favorited,
-  offset,
   limit,
+  page,
 }: {
   tag?: string
   author?: string
   favorited?: string
-  offset?: number
-  limit?: number
+  limit: number
+  page: number
 }) => {
   return useQuery(
-    ['getAritlces', tag, author, favorited, offset, limit],
-    () => articleAPI.getArticles({ tag, author, favorited, offset, limit }),
+    ['getAritlces', tag, author, favorited, limit, page],
+    () => articleAPI.getArticles({ tag, author, favorited, limit, page }),
     {
       enabled: false,
       onSuccess: (data) => {
