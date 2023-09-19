@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react'
 
-import { useQuery } from 'react-query'
 import { useRecoilState } from 'recoil'
 
-import { tagsAPI } from '@/API/tag'
 import ArticlePreview from '@/components/Article/ArticlePreview'
 import Pagination from '@/components/Pagination'
 import { MAIN_LIMIT } from '@/constants'
