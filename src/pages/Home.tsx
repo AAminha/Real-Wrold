@@ -30,7 +30,7 @@ const Home = () => {
     refetch: yourFeedArticlesFetch,
     isLoading: yourFeedArticlesLoading,
     isFetching: yourFeedArticlesFetching,
-  } = useGetFollowArticles({})
+  } = useGetFollowArticles({ page: currentPage })
 
   const {
     data: tagArticles,
