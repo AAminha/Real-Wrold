@@ -74,6 +74,12 @@ const ArticlePreview = ({
         <div>No articles are here... yet.</div>
       </div>
     )
+  else if (articles === undefined)
+    return (
+      <div className="article-preview">
+        <div>No articles are here... yet.</div>
+      </div>
+    )
   else return null
 }
 

@@ -43,6 +43,7 @@ const Home = () => {
   })
 
   useEffect(() => {
+    console.log('test')
     if (activeFeed === 'Your') yourFeedArticlesFetch()
     else if (activeFeed === 'Global') globalFeedArticlesFetch()
   }, [currentPage])
@@ -102,29 +103,33 @@ const Home = () => {
                 )}
               </ul>
             </div>
-            {activeFeed === 'Your' && yourFeedArticles && (
+            {activeFeed === 'Your' && (
               <ArticlePreview
                 articles={yourFeedArticles?.articles}
                 loading={yourFeedArticlesLoading || yourFeedArticlesFetching}
-                totalPage={Math.ceil(yourFeedArticles.articlesCount / MAIN_LIMIT)}
+                totalPage={
+                  yourFeedArticles ? Math.ceil(yourFeedArticles.articlesCount / MAIN_LIMIT) : 0
+                }
                 currentPage={currentPage}
                 setCurrentPage={setCurrentPage}
               />
             )}
-            {activeFeed === 'Global' && globalFeedArticles && (
+            {activeFeed === 'Global' && (
               <ArticlePreview
                 articles={globalFeedArticles?.articles}
                 loading={globalFeedArticlesLoading || globalFeedArticlesFetching}
-                totalPage={Math.ceil(globalFeedArticles?.articlesCount / MAIN_LIMIT)}
+                totalPage={
+                  globalFeedArticles ? Math.ceil(globalFeedArticles.articlesCount / MAIN_LIMIT) : 0
+                }
                 currentPage={currentPage}
                 setCurrentPage={setCurrentPage}
               />
             )}
-            {activeFeed === 'Tag' && tagArticles && (
+            {activeFeed === 'Tag' && (
               <ArticlePreview
                 articles={tagArticles?.articles}
                 loading={tagArticlesLoading || tagArticlesFetching}
-                totalPage={Math.ceil(tagArticles.articlesCount / MAIN_LIMIT)}
+                totalPage={tagArticles ? Math.ceil(tagArticles.articlesCount / MAIN_LIMIT) : 0}
                 currentPage={currentPage}
                 setCurrentPage={setCurrentPage}
               />
