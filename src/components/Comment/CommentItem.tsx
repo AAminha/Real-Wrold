@@ -19,8 +19,7 @@ const CommentItem = ({
   const [currentUser] = useRecoilState(userState)
 
   const { mutate: deleteCommentMutate } = useMutation(commentAPI.delete, {
-    onSuccess: ({ data, id }) => {
-      console.log(data)
+    onSuccess: ({ id }) => {
       setCommentList(commentList.filter((comment) => comment.id !== id))
     },
   })

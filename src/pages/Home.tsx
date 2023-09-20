@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react'
 import { useRecoilState } from 'recoil'
 
 import ArticlePreview from '@/components/Article/ArticlePreview'
-import Pagination from '@/components/Pagination'
 import { MAIN_LIMIT } from '@/constants'
 import { useGetArticles } from '@/hooks/useGetArticles'
 import { useGetFollowArticles } from '@/hooks/useGetFollowArticles'
@@ -74,7 +73,6 @@ const Home = () => {
                       className={`nav-link ${activeFeed === 'Your' && 'active'}`}
                       onClick={() => {
                         setActiveFeed('Your')
-                        //yourFeedArticlesFetch()
                         setCurrentPage(1)
                       }}
                     >
@@ -87,7 +85,6 @@ const Home = () => {
                     className={`nav-link ${activeFeed === 'Global' && 'active'}`}
                     onClick={() => {
                       setActiveFeed('Global')
-                      //globalFeedArticlesFetch()
                       setCurrentPage(1)
                     }}
                   >
@@ -107,18 +104,31 @@ const Home = () => {
               <ArticlePreview
                 articles={yourFeedArticles?.articles}
                 loading={yourFeedArticlesLoading || yourFeedArticlesFetching}
+                totalPage={
+                  yourFeedArticles ? Math.ceil(yourFeedArticles.articlesCount / MAIN_LIMIT) : 0
+                }
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
               />
             )}
             {activeFeed === 'Global' && (
               <ArticlePreview
                 articles={globalFeedArticles?.articles}
                 loading={globalFeedArticlesLoading || globalFeedArticlesFetching}
+                totalPage={
+                  globalFeedArticles ? Math.ceil(globalFeedArticles.articlesCount / MAIN_LIMIT) : 0
+                }
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
               />
             )}
             {activeFeed === 'Tag' && (
               <ArticlePreview
                 articles={tagArticles?.articles}
                 loading={tagArticlesLoading || tagArticlesFetching}
+                totalPage={tagArticles ? Math.ceil(tagArticles.articlesCount / MAIN_LIMIT) : 0}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
               />
             )}
           </div>
@@ -144,27 +154,6 @@ const Home = () => {
             </div>
           </div>
         </div>
-        {activeFeed === 'Global' && globalFeedArticles && (
-          <Pagination
-            totalPage={Math.ceil(globalFeedArticles?.articlesCount / MAIN_LIMIT)}
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
-          />
-        )}
-        {activeFeed === 'Your' && yourFeedArticles && (
-          <Pagination
-            totalPage={Math.ceil(yourFeedArticles.articlesCount / MAIN_LIMIT)}
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
-          />
-        )}
-        {activeFeed === 'Tag' && tagArticles && (
-          <Pagination
-            totalPage={Math.ceil(tagArticles.articlesCount / MAIN_LIMIT)}
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
-          />
-        )}
       </div>
     </div>
   )

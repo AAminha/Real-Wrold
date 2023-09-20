@@ -4,16 +4,15 @@ import { Link, useParams } from 'react-router-dom'
 
 import ArticlePreview from '@/components/Article/ArticlePreview'
 import ProfileButton from '@/components/Profile/ProfileButton'
+import { SUB_LIMIT } from '@/constants'
 import { useGetArticles } from '@/hooks/useGetArticles'
 import { useGetProfile } from '@/hooks/useGetProfile'
-
-// TODO: 페이지네이션 구현 (최대 개수 5개)
-// const SIZE = 5
 
 const Profile = () => {
   const { username: usernameParams } = useParams()
   const username = (usernameParams as string).replace('@', '')
   const [mode, setMode] = useState<string>('my')
+  const [currentPage, setCurrentPage] = useState<number>(1)
   const { data: profileData, refetch: getProfileRefetch } = useGetProfile(username)
   const {
     data: myArticlesData,
@@ -22,8 +21,8 @@ const Profile = () => {
     isFetching: myArticlesFetching,
   } = useGetArticles({
     author: username,
-    limit: 10,
-    page: 1,
+    limit: SUB_LIMIT,
+    page: currentPage,
   })
   const {
     data: favoritedArticlesData,
@@ -32,8 +31,8 @@ const Profile = () => {
     isFetching: favoritedArticlesFetching,
   } = useGetArticles({
     favorited: username,
-    limit: 10,
-    page: 1,
+    limit: SUB_LIMIT,
+    page: currentPage,
   })
 
   useEffect(() => {
@@ -44,7 +43,8 @@ const Profile = () => {
   useEffect(() => {
     if (mode === 'my') getMyArticlesRefetch()
     else getFavoritedArticlesRefetch()
-  }, [mode])
+    setCurrentPage(1)
+  }, [currentPage])
 
   return (
     <div>
@@ -79,7 +79,10 @@ const Profile = () => {
                       <Link
                         className={`nav-link ${mode === 'my' && 'active'}`}
                         to={`/@${profileData.username}`}
-                        onClick={() => setMode('my')}
+                        onClick={() => {
+                          setMode('my')
+                          setCurrentPage(1)
+                        }}
                       >
                         My Articles
                       </Link>
@@ -88,22 +91,38 @@ const Profile = () => {
                       <Link
                         className={`nav-link ${mode === 'favorites' && 'active'}`}
                         to={`/@${profileData.username}/favorites`}
-                        onClick={() => setMode('favorites')}
+                        onClick={() => {
+                          setMode('favorites')
+                          setCurrentPage(1)
+                        }}
                       >
                         Favorited Articles
                       </Link>
                     </li>
                   </ul>
                 </div>
-                {mode === 'my' ? (
+                {mode === 'my' && (
                   <ArticlePreview
                     articles={myArticlesData?.articles}
                     loading={myArticlesLoading || myArticlesFetching}
+                    totalPage={
+                      myArticlesData ? Math.ceil(myArticlesData.articlesCount / SUB_LIMIT) : 0
+                    }
+                    currentPage={currentPage}
+                    setCurrentPage={setCurrentPage}
                   />
-                ) : (
+                )}
+                {mode === 'favorites' && (
                   <ArticlePreview
                     articles={favoritedArticlesData?.articles}
                     loading={favoritedArticlesLoading || favoritedArticlesFetching}
+                    totalPage={
+                      favoritedArticlesData
+                        ? Math.ceil(favoritedArticlesData.articlesCount / SUB_LIMIT)
+                        : 0
+                    }
+                    currentPage={currentPage}
+                    setCurrentPage={setCurrentPage}
                   />
                 )}
               </div>

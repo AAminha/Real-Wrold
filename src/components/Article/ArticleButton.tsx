@@ -21,40 +21,35 @@ const ArticleButton = ({
 
   // 게시글 삭제 기능
   const { mutate: deleteArticleMutate } = useMutation(articleAPI.delete, {
-    onSuccess: (data) => {
-      console.log(data)
+    onSuccess: () => {
       navigate('/')
     },
   })
 
   // 팔로우 기능
   const { mutate: postFollowMutate } = useMutation(profileAPI.follow, {
-    onSuccess: (data) => {
-      console.log(data)
+    onSuccess: () => {
       articleRefetch()
     },
   })
 
   // 언팔로우 기능
   const { mutate: deleteFollowMutate } = useMutation(profileAPI.unfollow, {
-    onSuccess: (data) => {
-      console.log(data)
+    onSuccess: () => {
       articleRefetch()
     },
   })
 
   // 좋아요 기능
   const { mutate: postFavoriteMutate } = useMutation(articleAPI.favorite, {
-    onSuccess: (data) => {
-      console.log(data)
+    onSuccess: () => {
       articleRefetch()
     },
   })
 
   // 좋아요 취소 기능
   const { mutate: deleteFavoriteMutate } = useMutation(articleAPI.unfavorite, {
-    onSuccess: (data) => {
-      console.log(data)
+    onSuccess: () => {
       articleRefetch()
     },
   })
