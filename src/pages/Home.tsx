@@ -43,7 +43,6 @@ const Home = () => {
   })
 
   useEffect(() => {
-    console.log('test')
     if (activeFeed === 'Your') yourFeedArticlesFetch()
     else if (activeFeed === 'Global') globalFeedArticlesFetch()
   }, [currentPage])
