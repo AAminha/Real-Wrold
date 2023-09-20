@@ -1,17 +1,25 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import { Link } from 'react-router-dom'
 
 import { ArticleData } from '@/types/articles'
+
+import Pagination from '../Pagination'
 
 import ArticleMeta from './ArticleMeta'
 
 const ArticlePreview = ({
   articles,
   loading,
+  totalPage,
+  currentPage,
+  setCurrentPage,
 }: {
   articles: ArticleData[] | undefined
   loading: boolean
+  totalPage: number
+  currentPage: number
+  setCurrentPage: (page: number) => void
 }) => {
   if (loading)
     return (
@@ -53,6 +61,11 @@ const ArticlePreview = ({
               </Link>
             </div>
           ))}
+        <Pagination
+          totalPage={totalPage}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+        />
       </div>
     )
   else if (articles && articles.length === 0)

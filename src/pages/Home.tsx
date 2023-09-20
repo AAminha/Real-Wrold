@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react'
 import { useRecoilState } from 'recoil'
 
 import ArticlePreview from '@/components/Article/ArticlePreview'
-import Pagination from '@/components/Pagination'
 import { MAIN_LIMIT } from '@/constants'
 import { useGetArticles } from '@/hooks/useGetArticles'
 import { useGetFollowArticles } from '@/hooks/useGetFollowArticles'
@@ -103,22 +102,31 @@ const Home = () => {
                 )}
               </ul>
             </div>
-            {activeFeed === 'Your' && (
+            {activeFeed === 'Your' && yourFeedArticles && (
               <ArticlePreview
                 articles={yourFeedArticles?.articles}
                 loading={yourFeedArticlesLoading || yourFeedArticlesFetching}
+                totalPage={Math.ceil(yourFeedArticles.articlesCount / MAIN_LIMIT)}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
               />
             )}
-            {activeFeed === 'Global' && (
+            {activeFeed === 'Global' && globalFeedArticles && (
               <ArticlePreview
                 articles={globalFeedArticles?.articles}
                 loading={globalFeedArticlesLoading || globalFeedArticlesFetching}
+                totalPage={Math.ceil(globalFeedArticles?.articlesCount / MAIN_LIMIT)}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
               />
             )}
-            {activeFeed === 'Tag' && (
+            {activeFeed === 'Tag' && tagArticles && (
               <ArticlePreview
                 articles={tagArticles?.articles}
                 loading={tagArticlesLoading || tagArticlesFetching}
+                totalPage={Math.ceil(tagArticles.articlesCount / MAIN_LIMIT)}
+                currentPage={currentPage}
+                setCurrentPage={setCurrentPage}
               />
             )}
           </div>
@@ -144,7 +152,7 @@ const Home = () => {
             </div>
           </div>
         </div>
-        {activeFeed === 'Global' && globalFeedArticles && (
+        {/* {activeFeed === 'Global' && globalFeedArticles && (
           <Pagination
             totalPage={Math.ceil(globalFeedArticles?.articlesCount / MAIN_LIMIT)}
             currentPage={currentPage}
@@ -164,7 +172,7 @@ const Home = () => {
             currentPage={currentPage}
             setCurrentPage={setCurrentPage}
           />
-        )}
+        )} */}
       </div>
     </div>
   )
