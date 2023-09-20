@@ -73,7 +73,6 @@ const Home = () => {
                       className={`nav-link ${activeFeed === 'Your' && 'active'}`}
                       onClick={() => {
                         setActiveFeed('Your')
-                        //yourFeedArticlesFetch()
                         setCurrentPage(1)
                       }}
                     >
@@ -86,7 +85,6 @@ const Home = () => {
                     className={`nav-link ${activeFeed === 'Global' && 'active'}`}
                     onClick={() => {
                       setActiveFeed('Global')
-                      //globalFeedArticlesFetch()
                       setCurrentPage(1)
                     }}
                   >
@@ -156,27 +154,6 @@ const Home = () => {
             </div>
           </div>
         </div>
-        {/* {activeFeed === 'Global' && globalFeedArticles && (
-          <Pagination
-            totalPage={Math.ceil(globalFeedArticles?.articlesCount / MAIN_LIMIT)}
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
-          />
-        )}
-        {activeFeed === 'Your' && yourFeedArticles && (
-          <Pagination
-            totalPage={Math.ceil(yourFeedArticles.articlesCount / MAIN_LIMIT)}
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
-          />
-        )}
-        {activeFeed === 'Tag' && tagArticles && (
-          <Pagination
-            totalPage={Math.ceil(tagArticles.articlesCount / MAIN_LIMIT)}
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
-          />
-        )} */}
       </div>
     </div>
   )

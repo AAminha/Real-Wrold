@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 
 import ArticlePreview from '@/components/Article/ArticlePreview'
-//import Pagination from '@/components/Pagination'
 import ProfileButton from '@/components/Profile/ProfileButton'
 import { SUB_LIMIT } from '@/constants'
 import { useGetArticles } from '@/hooks/useGetArticles'
