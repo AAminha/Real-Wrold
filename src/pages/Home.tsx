@@ -45,6 +45,7 @@ const Home = () => {
   useEffect(() => {
     if (activeFeed === 'Your') yourFeedArticlesFetch()
     else if (activeFeed === 'Global') globalFeedArticlesFetch()
+    else if (selectedTag !== '') tagFeedArticlesFetch()
   }, [currentPage, activeFeed])
 
   useEffect(() => {
@@ -74,6 +75,7 @@ const Home = () => {
                       onClick={() => {
                         setActiveFeed('Your')
                         setCurrentPage(1)
+                        setSelectedTag('')
                       }}
                     >
                       Your Feed
@@ -86,6 +88,7 @@ const Home = () => {
                     onClick={() => {
                       setActiveFeed('Global')
                       setCurrentPage(1)
+                      setSelectedTag('')
                     }}
                   >
                     Global Feed
