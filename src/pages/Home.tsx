@@ -45,7 +45,7 @@ const Home = () => {
   useEffect(() => {
     if (activeFeed === 'Your') yourFeedArticlesFetch()
     else if (activeFeed === 'Global') globalFeedArticlesFetch()
-  }, [currentPage])
+  }, [currentPage, activeFeed])
 
   useEffect(() => {
     tagsRefetch()
