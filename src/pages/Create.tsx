@@ -1,4 +1,4 @@
-import React, { ChangeEvent, KeyboardEvent, useEffect, useState } from 'react'
+import React, { ChangeEvent, KeyboardEvent, useState } from 'react'
 
 import { AxiosError } from 'axios'
 import { useMutation } from 'react-query'
