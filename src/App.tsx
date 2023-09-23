@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 import { Route, Routes } from 'react-router-dom'
+import { useRecoilState } from 'recoil'
 
+import { userAPI } from './API/user'
 import Footer from './components/Footer/Footer'
 import Header from './components/Header/Header'
 import Article from './pages/Article'
@@ -12,8 +14,31 @@ import Login from './pages/Login'
 import Profile from './pages/Profile'
 import Register from './pages/Register'
 import Settings from './pages/Settings'
+import api from './service/TokenService'
+import { userState } from './states/userState'
 
 const App = () => {
+  const [, setCurrentUser] = useRecoilState(userState)
+
+  const getUserData = () => {
+    userAPI.get().then((data) => {
+      const userData = data.user
+      setCurrentUser({
+        username: userData.username,
+        bio: userData.bio,
+        image: userData.image,
+        email: userData.email,
+      })
+      api.set(userData.token)
+    })
+  }
+
+  useEffect(() => {
+    if (api.get() !== undefined) {
+      getUserData()
+    }
+  }, [])
+
   return (
     <main>
       <Header />

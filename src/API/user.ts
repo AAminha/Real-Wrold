@@ -21,7 +21,7 @@ export const userAPI = {
   },
   get: async () => {
     const response = await authClient.get<GetUserResponse>('/user')
-    return response
+    return response.data
   },
   update: async (newUserData: PutUserRequest) => {
     const response = await authClient.put<PutUserResponse>('/user', newUserData)
