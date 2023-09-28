@@ -14,7 +14,7 @@ import Login from './pages/Login'
 import Profile from './pages/Profile'
 import Register from './pages/Register'
 import Settings from './pages/Settings'
-import { PrivateRouteLogin, PrivateRouteLogout } from './service/PrivateRoute'
+import { PrivateRouteLogin, PrivateRouteLogout, PrivateRouteUser } from './service/PrivateRoute'
 import api from './service/TokenService'
 import { userState } from './states/userState'
 
@@ -86,7 +86,11 @@ const App = () => {
         />
         <Route
           path="/:username/*"
-          element={<Profile />}
+          element={
+            <PrivateRouteUser>
+              <Profile />
+            </PrivateRouteUser>
+          }
         />
         <Route
           path="/article/:slug"
