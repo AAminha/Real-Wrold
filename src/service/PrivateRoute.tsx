@@ -49,5 +49,3 @@ export const PrivateRouteUser = ({ children }: { children: JSX.Element }) => {
 
   return children
 }
-
-// TODO : 로그인이든 비로그인이든 존재하지 않는 path는 홈으로 이동하도록
