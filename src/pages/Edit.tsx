@@ -2,10 +2,12 @@ import React, { ChangeEvent, KeyboardEvent, useEffect, useState } from 'react'
 
 import { AxiosError } from 'axios'
 import { useMutation } from 'react-query'
-import { useNavigate, useParams } from 'react-router-dom'
+import { Navigate, useNavigate, useParams } from 'react-router-dom'
+import { useRecoilState } from 'recoil'
 
 import { articleAPI } from '@/API/articles'
 import { useGetArticle } from '@/hooks/useGetArticle'
+import { userState } from '@/states/userState'
 import { PostArticleRequestData } from '@/types/articles'
 import { ErrorData } from '@/types/user'
 
@@ -14,6 +16,7 @@ const Edit = () => {
   const [selectedSlug] = useState<string>(slug !== undefined ? slug : '')
   const { data: selectedArticle } = useGetArticle(selectedSlug)
   const navigate = useNavigate()
+  const [setCurrentUser] = useRecoilState(userState)
   const [tag, setTage] = useState<string>('')
   const [error, setError] = useState<string[]>([])
   const [articleInfo, setArticleInfo] = useState<PostArticleRequestData>({
@@ -57,6 +60,15 @@ const Edit = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     putArticleMutate(articleInfo)
+  }
+
+  if (selectedArticle && selectedArticle.article.author.username === setCurrentUser?.username) {
+    return (
+      <Navigate
+        to="/"
+        replace
+      />
+    )
   }
 
   return (
