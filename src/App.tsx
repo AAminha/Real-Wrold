@@ -14,7 +14,7 @@ import Login from './pages/Login'
 import Profile from './pages/Profile'
 import Register from './pages/Register'
 import Settings from './pages/Settings'
-import { PrivateRouteLogin } from './service/PrivateRoute'
+import { PrivateRouteLogin, PrivateRouteLogout } from './service/PrivateRoute'
 import api from './service/TokenService'
 import { userState } from './states/userState'
 
@@ -66,7 +66,11 @@ const App = () => {
         />
         <Route
           path="/editor"
-          element={<Create />}
+          element={
+            <PrivateRouteLogout>
+              <Create />
+            </PrivateRouteLogout>
+          }
         />
         <Route
           path="/editor/:slug"
@@ -74,7 +78,11 @@ const App = () => {
         />
         <Route
           path="/settings"
-          element={<Settings />}
+          element={
+            <PrivateRouteLogout>
+              <Settings />
+            </PrivateRouteLogout>
+          }
         />
         <Route
           path="/:username/*"
