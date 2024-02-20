@@ -2,7 +2,6 @@
 
 https://real-wrold.vercel.app/
 
-테스트
 ## 적용한 기술
 
 - 번들 `vite`
